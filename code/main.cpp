@@ -21,37 +21,33 @@ struct Output {
 
 bool checkSliceHorizontal(Input &input, Slice &s)
 {
-	bool t = false;
-	bool f = false;
+	int t = 0;
+	int f = 0;
 	for (int j = s.c1; j <= s.c2; j++)
 	{
 		if (input.tomatoes[s.r1][j])
-			t = true;
+			t++;
 		else
-			f = true;
-
-		if (t == true && f == true)
-			return true;
+			f++;
 	}
-	return false;
+	
+	return (t >= input.l && f >= input.l);
 }
 
 
 bool checkSliceVertical(Input &input, Slice &s)
 {
-	bool t = false;
-	bool f = false;
+	int t = 0;
+	int f = 0;
 	for (int i = s.r1; i <= s.r2; i++)
 	{
 		if (input.tomatoes[i][s.c1])
-			t = true;
+			t++;
 		else
-			f = true;
-
-		if (t == true && f == true)
-			return true;
+			f++;
 	}
-	return false;
+	
+	return (t >= input.l && f >= input.l);
 }
 
 
@@ -89,15 +85,15 @@ void solveSimpleVertical(Input& input, Output& output) {
 
 
 
-int add_slice(const vector<bool> &a, int l, int r)	{
+int add_slice(const vector<bool> &a, int l, int r, int cnt_min)	{
 	int cnt1 = 0, cnt2 = 0;
 	for (int i = l; i <= r; i++)
 		if (a[i])
 			cnt1++;
 		else
 			cnt2++;
-	
-	if (cnt1 >= l && cnt2 >= l)
+
+	if (cnt1 >= cnt_min && cnt2 >= cnt_min)
 		return r-l+1;
 	return 0;
 }
@@ -109,13 +105,18 @@ void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<S
 		for (int j = 2*l; j <= h; j++)
 			 if (i-j+1 >= 0)
 			 {
-			 	int temp = add_slice(a,i-j+1,i);
-			 	if (d[i] < d[i-j+1] + temp)
+			 	int temp = add_slice(a,i-j+1,i,l);
+			 	int prev_res = (i-j >= 0 ? d[i-j] : 0); 
+				if (d[i] < prev_res + temp)
 				{
-			 		d[i] = d[i-j+1] + temp;
+			 		d[i] = prev_res + temp;
 					prev[i] = i-j+1;
 			 	}
 			}
+		
+	//for (int i = 0; i < n; i++)
+	//	cerr << d[i] << ' ' << prev[i] << endl;;
+	//cerr << endl;	
 		
 	int i_max = 0;
 	for (int i = 0; i < n; i++)
@@ -125,7 +126,7 @@ void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<S
 	Slice c;		
 	c.r1 = c.r2 = row_num;
 	
-	for (int i = i_max; i > 0; i--)
+	for (int i = i_max; i > 0;)
 	{
 		c.c1 = prev[i]; c.c2 = i;
 		i = prev[i]-1;
@@ -160,7 +161,7 @@ int main(int argc, char* argv[]) {
 	
 	//read command line args
 	string algorithm = "simplehorizontal";
-	if(argc > 2) {
+	if(argc > 1) {
 		algorithm = argv[1];
 	}
 	
@@ -183,7 +184,10 @@ int main(int argc, char* argv[]) {
 	
 	//print output
 	cout << output.slices.size() << endl;
+	int area = 0;
 	for(Slice slice: output.slices) {
+		area += (slice.r2 - slice.r1 + 1) * (slice.c2 - slice.c1 + 1);
 		cout << slice.r1 << ' ' << slice.c1 << ' ' << slice.r2 << ' ' << slice.c2 << endl;
 	}
+	cerr << "cells used: " << area << endl;
 };
