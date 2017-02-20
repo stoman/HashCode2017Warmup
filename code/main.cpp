@@ -17,7 +17,18 @@ struct Output {
 };
 
 void solveSimple(Input& input, Output& output) {
-	//TODO add code here
+	for (int i = 0; i < input.r; i++)
+	{
+		for (int j = 0; j < input.c; j += input.h)
+		{
+			Slice s;
+			s.r1 = i;
+			s.c1 = j;
+			s.r2 = i;
+			s.c2 = min(j+input.h-1, input.c-1);
+			output.slices.push_back(s);
+		}
+	}
 }
 
 void solveDP(Input& input, Output& output) {
