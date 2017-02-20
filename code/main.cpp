@@ -85,7 +85,7 @@ void solveSimpleVertical(Input& input, Output& output) {
 
 
 
-int add_slice(const vector<bool> &a, int l, int r, int cnt_min)	{
+int add_slice(const vector<bool> &a, int l, int r, int cnt_min, int h)	{
 	int cnt1 = 0, cnt2 = 0;
 	for (int i = l; i <= r; i++)
 		if (a[i])
@@ -93,12 +93,12 @@ int add_slice(const vector<bool> &a, int l, int r, int cnt_min)	{
 		else
 			cnt2++;
 
-	if (cnt1 >= cnt_min && cnt2 >= cnt_min)
+	if (cnt1 >= cnt_min && cnt2 >= cnt_min && r-l+1 <= h)
 		return r-l+1;
 	return 0;
 }
 
-bool check_slice(const vector<bool> &a, int l, int r, int cnt_min)	{
+bool check_slice(const vector<bool> &a, int l, int r, int cnt_min, int h)	{
 	int cnt1 = 0, cnt2 = 0;
 	for (int i = l; i <= r; i++)
 		if (a[i])
@@ -106,29 +106,34 @@ bool check_slice(const vector<bool> &a, int l, int r, int cnt_min)	{
 		else
 			cnt2++;
 
-	return (cnt1 >= cnt_min && cnt2 >= cnt_min);		
+	return (cnt1 >= cnt_min && cnt2 >= cnt_min && r-l+1 <= h);		
 }
 
 void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<Slice> &ans)	{
 	vector<int> d(n,0), prev(n,0);
 	
+	//cerr << row_num << endl;
+	
 	for (int i = 0; i < n; i++)
-		for (int j = 2*l; j <= h; j++)
-			 if (i-j+1 >= 0)
-			 {
-			 	int temp = add_slice(a,i-j+1,i,l);
-			 	int prev_res = (i-j >= 0 ? d[i-j] : 0); 
-				if (d[i] < prev_res + temp)
-				{
-			 		d[i] = prev_res + temp;
-					prev[i] = i-j+1;
-			 	}
+		for (int j = max(0,i-40); j < i; j++)
+		{
+			int temp = add_slice(a,j,i,l,h);
+			int prev_res = (j >= 0 ? d[j-1] : 0); 
+			if (d[i] < prev_res + temp)
+			{
+					d[i] = prev_res + temp;
+					prev[i] = j;
 			}
+		}
 		
-	//for (int i = 0; i < n; i++)
-	//	cerr << d[i] << ' ' << prev[i] << endl;;
-	//cerr << endl;	
 		
+	/*if (row_num == 14)
+	{	
+		for (int i = 0; i < 60; i++)
+			cerr << i << ' ' << d[i] << ' ' << prev[i] << endl;;
+		cerr << endl;	
+	}*/	
+	
 	int i_max = 0;
 	for (int i = 0; i < n; i++)
 		if (d[i] > d[i_max])
@@ -138,11 +143,11 @@ void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<S
 	c.r1 = c.r2 = row_num;
 	
 	for (int i = i_max; i > 0;)
-	{
+	{	
 		c.c1 = prev[i]; c.c2 = i;
 		i = prev[i]-1;
 		
-		if (check_slice(a,c.c1,c.c2,l))
+		if (check_slice(a,c.c1,c.c2,l,h))
 			ans.push_back(c);
 	}
 }
