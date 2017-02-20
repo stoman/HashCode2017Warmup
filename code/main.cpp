@@ -165,7 +165,7 @@ int main(int argc, char* argv[]) {
 	
 	//read command line args
 	string algorithm = "simplehorizontal";
-	if(argc > 2) {
+	if(argc > 1) {
 		algorithm = argv[1];
 	}
 	
