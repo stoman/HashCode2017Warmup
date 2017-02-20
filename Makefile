@@ -1,11 +1,16 @@
 CXX=g++ -std=c++11
 MAINFILE=code/main
+STRATEGIES=dp dptranspose simplehorizontal simplevertical diagonal
+ALLOUTPUTS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.ans, $(wildcard data/*.in)))
+ALLVISUALIZATIONS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.png, $(filter-out data/big.in, $(wildcard data/*.in))))
 
-all: $(patsubst data/%.in,data/dp.%.ans,$(wildcard data/*.in)) $(patsubst data/%.in,data/dptranspose.%.ans,$(wildcard data/*.in)) $(patsubst data/%.in,data/simplehorizontal.%.ans,$(wildcard data/*.in)) $(patsubst data/%.in,data/simplevertical.%.ans,$(wildcard data/*.in)) $(patsubst data/%.in,data/diagonal.%.ans,$(wildcard data/*.in))
+all: data visualizations
 
-visualize: $(patsubst data/%.in,data/dp.%.png,$(wildcard data/*.in)) $(patsubst data/%.in,data/dptranspose.%.png,$(wildcard data/*.in)) $(patsubst data/%.in,data/simplehorizontal.%.png,$(wildcard data/*.in)) $(patsubst data/%.in,data/simplevertical.%.png,$(wildcard data/*.in)) $(patsubst data/%.in,data/diagonal.%.png,$(wildcard data/*.in))
+data: $(ALLOUTPUTS)
 
-sample: data/dp.example.ans data/dptranspose.example.ans data/simplehorizontal.example.ans data/simplevertical.example.ans data/diagonal.example.ans
+visualizations: $(ALLVISUALIZATIONS)
+
+sample: $(foreach strategy, $(STRATEGIES), data/$(strategy).example.ans)
 
 $(MAINFILE): $(wildcard code/*.cpp)
 	$(CXX) -o $(MAINFILE) $(MAINFILE).cpp
