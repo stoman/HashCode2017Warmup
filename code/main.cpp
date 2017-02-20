@@ -1,8 +1,10 @@
 #include <iostream>
+#include <string>
 #include <vector>
 
 using namespace std;
 
+//util classes
 struct Input {
 	int r, c, l, h;
 	vector<vector<bool>> tomatoes;
@@ -24,7 +26,8 @@ void solveDP(Input& input, Output& output) {
 	//TODO add code here
 }
 
-int main() {
+//input/output code
+int main(int argc, char* argv[]) {
 	ios::sync_with_stdio(false);
 	
 	//read input
@@ -41,11 +44,28 @@ int main() {
 		//TODO do we read line breaks?
 	}
 	
+	//read command line args
+	string algorithm = "simple";
+	if(argc > 2) {
+		algorithm = argv[1];
+	}
+	
 	//solve problem
 	Output output;
-	solve(input, output);
+	if(algorithm == "simple") {
+		solveSimple(input, output);
+	}
+	else if(algorithm == "dp") {
+		solveDP(input, output);
+	}
+	else {
+		cerr << "unknown algorithm " << algorithm << endl;
+		return 1;
+	}
 	
 	//print output
 	cout << output.slices.size() << endl;
-	
+	for(Slice slice: output.slices) {
+		cout << slice.r1 << ' ' << slice.c1 << ' ' << slice.r2 << ' ' << slice.c2 << endl;
+	}
 };
