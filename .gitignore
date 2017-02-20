@@ -1,6 +1,8 @@
 # Output files
 *.ans
 *.png
+*.zip
+code/main
 
 # Compiled Object files
 *.slo

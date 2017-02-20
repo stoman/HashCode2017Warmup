@@ -12,6 +12,12 @@ visualizations: $(ALLVISUALIZATIONS)
 
 sample: $(foreach strategy, $(STRATEGIES), data/$(strategy).example.ans)
 
+build: clean
+	zip build.zip code visualizations README.md Makefile LICENSE .gitignore
+
+clean:
+	rm -f $(MAINFILE) $(ALLOUTPUTS) $(ALLVISUALIZATIONS)
+
 $(MAINFILE): $(wildcard code/*.cpp)
 	$(CXX) -o $(MAINFILE) $(MAINFILE).cpp
 	
