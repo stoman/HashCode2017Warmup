@@ -18,6 +18,24 @@ struct Output {
 	vector<Slice> slices;
 };
 
+
+bool checkSlice(Input &input, Slice &s)
+{
+	bool t = false;
+	bool f = false;
+	for (int j = s.c1; j <= s.c2; j++)
+	{
+		if (input.tomatoes[s.r1][j])
+			t = true;
+		else
+			f = true;
+
+		if (t == true && f == true)
+			return true;
+	}
+	return false;
+}
+
 void solveSimpleHorizontal(Input& input, Output& output) {
 	for (int i = 0; i < input.r; i++)
 	{
@@ -28,7 +46,8 @@ void solveSimpleHorizontal(Input& input, Output& output) {
 			s.c1 = j;
 			s.r2 = i;
 			s.c2 = min(j+input.h-1, input.c-1);
-			output.slices.push_back(s);
+			if (checkSlice(input, s))
+				output.slices.push_back(s);
 		}
 	}
 }
@@ -43,7 +62,8 @@ void solveSimpleVertical(Input& input, Output& output) {
 			s.c1 = j;
 			s.r2 = min(i+input.h-1, input.r-1);
 			s.c2 = j;
-			output.slices.push_back(s);
+			if (checkSlice(input, s))
+				output.slices.push_back(s);
 		}
 	}
 }
