@@ -18,6 +18,43 @@ struct Output {
 	vector<Slice> slices;
 };
 
+
+bool checkSliceHorizontal(Input &input, Slice &s)
+{
+	bool t = false;
+	bool f = false;
+	for (int j = s.c1; j <= s.c2; j++)
+	{
+		if (input.tomatoes[s.r1][j])
+			t = true;
+		else
+			f = true;
+
+		if (t == true && f == true)
+			return true;
+	}
+	return false;
+}
+
+
+bool checkSliceVertical(Input &input, Slice &s)
+{
+	bool t = false;
+	bool f = false;
+	for (int i = s.r1; i <= s.r2; i++)
+	{
+		if (input.tomatoes[i][s.c1])
+			t = true;
+		else
+			f = true;
+
+		if (t == true && f == true)
+			return true;
+	}
+	return false;
+}
+
+
 void solveSimpleHorizontal(Input& input, Output& output) {
 	for (int i = 0; i < input.r; i++)
 	{
@@ -28,7 +65,8 @@ void solveSimpleHorizontal(Input& input, Output& output) {
 			s.c1 = j;
 			s.r2 = i;
 			s.c2 = min(j+input.h-1, input.c-1);
-			output.slices.push_back(s);
+			if (checkSliceHorizontal(input, s))
+				output.slices.push_back(s);
 		}
 	}
 }
@@ -43,7 +81,8 @@ void solveSimpleVertical(Input& input, Output& output) {
 			s.c1 = j;
 			s.r2 = min(i+input.h-1, input.r-1);
 			s.c2 = j;
-			output.slices.push_back(s);
+			if (checkSliceVertical(input, s))
+				output.slices.push_back(s);
 		}
 	}
 }
@@ -120,21 +159,25 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//read command line args
-	string algorithm = "simple";
+	string algorithm = "simplehorizontal";
 	if(argc > 2) {
 		algorithm = argv[1];
 	}
 	
 	//solve problem
 	Output output;
-	if(algorithm == "simple") {
+	cerr << "using algorithm " << algorithm << endl;
+	if(algorithm == "simplehorizontal") {
 		solveSimpleHorizontal(input, output);
+	}
+	else if(algorithm == "simplevertical") {
+		solveSimpleVertical(input, output);
 	}
 	else if(algorithm == "dp") {
 		solveDP(input, output);
 	}
 	else {
-		cerr << "unknown algorithm " << algorithm << endl;
+		cerr << "unknown algorithm" << endl;
 		return 1;
 	}
 	
