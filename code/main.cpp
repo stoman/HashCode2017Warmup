@@ -98,6 +98,17 @@ int add_slice(const vector<bool> &a, int l, int r, int cnt_min)	{
 	return 0;
 }
 
+bool check_slice(const vector<bool> &a, int l, int r, int cnt_min)	{
+	int cnt1 = 0, cnt2 = 0;
+	for (int i = l; i <= r; i++)
+		if (a[i])
+			cnt1++;
+		else
+			cnt2++;
+
+	return (cnt1 >= cnt_min && cnt2 >= cnt_min);		
+}
+
 void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<Slice> &ans)	{
 	vector<int> d(n,0), prev(n,0);
 	
@@ -130,7 +141,9 @@ void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<S
 	{
 		c.c1 = prev[i]; c.c2 = i;
 		i = prev[i]-1;
-		ans.push_back(c);
+		
+		if (check_slice(a,c.c1,c.c2,l))
+			ans.push_back(c);
 	}
 }
 
