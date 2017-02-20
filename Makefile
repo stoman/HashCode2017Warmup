@@ -7,12 +7,18 @@ sample: data/dp.example.ans data/simplehorizontal.example.ans data/simplevertica
 
 $(MAINFILE): $(MAINFILE).cpp
 	$(CXX) -o $(MAINFILE) $(MAINFILE).cpp
+	
+visualize/%.class: $(@:%.class=%.java)
+	javac -cp visualize $(@:visualize/%.class=%)
 
 data/dp.%.ans: $(MAINFILE)
-	$(MAINFILE) dp < data/$(@:data/dp.%.ans=%.in) > $@
+	$(MAINFILE) dp < $(@:data/dp.%.ans=data/%.in) > $@
 
 data/simplehorizontal.%.ans: $(MAINFILE)
-	$(MAINFILE) simplehorizontal < data/$(@:data/simplehorizontal.%.ans=%.in) > $@
+	$(MAINFILE) simplehorizontal < $(@:data/simplehorizontal.%.ans=data/%.in) > $@
 
 data/simplevertical.%.ans: $(MAINFILE)
-	$(MAINFILE) simplevertical < data/$(@:data/simplevertical.%.ans=%.in) > $@
+	$(MAINFILE) simplevertical < $(@:data/simplevertical.%.ans=data/%.in) > $@
+
+data/%.in.dat: $(@:%.dat=%) visualize/InputToGnu.class
+	java -cp visualize InputToGnu < $(@:%.dat=%) > $@
