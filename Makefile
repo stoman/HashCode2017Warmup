@@ -5,7 +5,7 @@ all: $(patsubst data/%.in,data/dp.%.ans,$(wildcard data/*.in)) $(patsubst data/%
 
 sample: data/dp.example.ans data/simplehorizontal.example.ans data/simplevertical.example.ans
 
-$(MAINFILE): $(wildcard code/%.cpp)
+$(MAINFILE): $(wildcard code/*.cpp)
 	$(CXX) -o $(MAINFILE) $(MAINFILE).cpp
 	
 visualize/%.class: $(@:%.class=%.java)
