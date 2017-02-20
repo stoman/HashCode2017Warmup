@@ -19,7 +19,7 @@ struct Output {
 };
 
 
-bool checkSliceHorizontal(Input &input, Slice &s)
+bool checkSlice(Input &input, Slice &s)
 {
 	int t = 0;
 	int f = 0;
@@ -35,23 +35,7 @@ bool checkSliceHorizontal(Input &input, Slice &s)
 }
 
 
-bool checkSliceVertical(Input &input, Slice &s)
-{
-	int t = 0;
-	int f = 0;
-	for (int i = s.r1; i <= s.r2; i++)
-	{
-		if (input.tomatoes[i][s.c1])
-			t++;
-		else
-			f++;
-	}
-	
-	return (t >= input.l && f >= input.l);
-}
-
-
-void solveSimpleHorizontal(Input& input, Output& output) {
+void solveSimple(Input& input, Output& output) {
 	for (int i = 0; i < input.r; i++)
 	{
 		for (int j = 0; j < input.c; j += input.h)
@@ -61,28 +45,11 @@ void solveSimpleHorizontal(Input& input, Output& output) {
 			s.c1 = j;
 			s.r2 = i;
 			s.c2 = min(j+input.h-1, input.c-1);
-			if (checkSliceHorizontal(input, s))
+			if (checkSlice(input, s))
 				output.slices.push_back(s);
 		}
 	}
 }
-
-void solveSimpleVertical(Input& input, Output& output) {
-	for (int j = 0; j < input.c; j++)
-	{
-		for (int i = 0; i < input.r; i += input.h)
-		{
-			Slice s;
-			s.r1 = i;
-			s.c1 = j;
-			s.r2 = min(i+input.h-1, input.r-1);
-			s.c2 = j;
-			if (checkSliceVertical(input, s))
-				output.slices.push_back(s);
-		}
-	}
-}
-
 
 
 int add_slice(const vector<bool> &a, int l, int r, int cnt_min, int h)	{
@@ -159,6 +126,31 @@ void solveDP(Input& input, Output& output) {
 		solve_row(input.tomatoes[i],i,input.c,input.l,input.h,output.slices);
 }
 
+void transpose_input(Input &input)	{
+
+	int temp_tomatoes[1010][1010];
+	
+	for (int i = 0; i < input.r; i++)
+	{
+		for (int j = 0; j < input.c; j++)
+			temp_tomatoes[j][i] = input.tomatoes[i][j];
+		input.tomatoes[i].clear();
+	}
+	input.tomatoes.resize(input.c);
+	swap(input.r, input.c);
+	for (int i = 0; i < input.r; i++)
+		for (int j = 0; j < input.c; j++)
+			input.tomatoes[i].push_back(temp_tomatoes[i][j]);
+}
+
+void transpose_output(Output &output)	{
+	for (int i = 0; i < output.slices.size(); i++)
+	{
+		swap(output.slices[i].r1,output.slices[i].c1);
+		swap(output.slices[i].r2,output.slices[i].c2);	
+	}
+}
+
 //input/output code
 int main(int argc, char* argv[]) {
 	ios::sync_with_stdio(false);
@@ -182,24 +174,31 @@ int main(int argc, char* argv[]) {
 	if(argc > 1) {
 		algorithm = argv[1];
 	}
-	
+		
 	//solve problem
 	Output output;
 	cerr << "using algorithm " << algorithm << endl;
 	if(algorithm == "simplehorizontal") {
-		solveSimpleHorizontal(input, output);
+		solveSimple(input, output);
 	}
 	else if(algorithm == "simplevertical") {
-		solveSimpleVertical(input, output);
+		transpose_input(input);
+		solveSimple(input, output);
+		transpose_output(output);
 	}
 	else if(algorithm == "dp") {
 		solveDP(input, output);
+	}
+	else if(algorithm == "dptranspose")	{
+		transpose_input(input);
+		solveDP(input,output);
+		transpose_output(output);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;
 		return 1;
 	}
-	
+
 	//print output
 	cout << output.slices.size() << endl;
 	int area = 0;
