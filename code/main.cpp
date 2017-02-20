@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	Input input;
 	cin >> input.r >> input.c >> input.l >> input.h;
 	for(int i = 0; i < input.r; i++) {
-		vector<bool> row(input.c);
+		vector<int> row(input.c);
 		for(int j = 0; j < input.c; j++) {
 			char cell;
 			cin >> cell;

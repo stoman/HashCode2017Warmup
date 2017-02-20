@@ -1,6 +1,6 @@
 #include "util.cpp"
 
-int add_slice(const vector<bool> &a, int l, int r, int cnt_min, int h)	{
+int add_slice(const vector<int> &a, int l, int r, int cnt_min, int h)	{
 	int cnt1 = 0, cnt2 = 0;
 	for (int i = l; i <= r; i++)
 		if (a[i])
@@ -13,7 +13,7 @@ int add_slice(const vector<bool> &a, int l, int r, int cnt_min, int h)	{
 	return 0;
 }
 
-bool check_slice(const vector<bool> &a, int l, int r, int cnt_min, int h)	{
+bool check_slice(const vector<int> &a, int l, int r, int cnt_min, int h)	{
 	int cnt1 = 0, cnt2 = 0;
 	for (int i = l; i <= r; i++)
 		if (a[i])
@@ -24,7 +24,7 @@ bool check_slice(const vector<bool> &a, int l, int r, int cnt_min, int h)	{
 	return (cnt1 >= cnt_min && cnt2 >= cnt_min && r-l+1 <= h);		
 }
 
-void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<Slice> &ans)	{
+void solve_row(const vector<int> &a, int row_num, int n, int l, int h, vector<Slice> &ans)	{
 	vector<int> d(n,0), prev(n,0);
 	
 	//cerr << row_num << endl;
