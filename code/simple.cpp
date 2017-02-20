@@ -30,3 +30,4 @@ void solveSimple(Input& input, Output& output) {
 		}
 	}
 }
+
