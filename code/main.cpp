@@ -120,15 +120,18 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//read command line args
-	string algorithm = "simple";
+	string algorithm = "simplehorizontal";
 	if(argc > 2) {
 		algorithm = argv[1];
 	}
 	
 	//solve problem
 	Output output;
-	if(algorithm == "simple") {
+	if(algorithm == "simplehorizontal") {
 		solveSimpleHorizontal(input, output);
+	}
+	else if(algorithm == "simplevertical") {
+		solveSimpleVertical(input, output);
 	}
 	else if(algorithm == "dp") {
 		solveDP(input, output);
