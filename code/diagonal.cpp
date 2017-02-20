@@ -4,6 +4,8 @@
 //helper function to sort larger slices up
 bool compareSlices(const pair<int, int>& lhs, const std::pair<int, int>& rhs) {
  return lhs.first * lhs.second > rhs.first * rhs.second;
+ //prefer squares (this makes the results slightly worse)
+ //return lhs.first * lhs.second - abs(lhs.first - lhs.second) > rhs.first * rhs.second - abs(rhs.first - rhs.second);
 };
 
 //compute possible slices

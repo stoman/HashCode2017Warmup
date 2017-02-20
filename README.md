@@ -10,7 +10,7 @@ Almost all code is written in C++. You can run the code by simply starting `make
 
 This is our team called TUMbleweed:
 
-* Christian Müller
-* Gregor Schwarz
-* Kirill Martynov
-* Stefan Toman
+* [Christian Müller](https://github.com/Eminenz)
+* [Gregor Schwarz](https://github.com/koachbamoach)
+* [Kirill Martynov](https://github.com/kirmartynov)
+* [Stefan Toman](https://github.com/stoman)
