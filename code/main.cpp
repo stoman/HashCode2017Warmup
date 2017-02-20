@@ -16,12 +16,18 @@ struct Output {
 	vector<Slice> slices;
 };
 
-void solve(Input& input, Output& output) {
+void solveSimple(Input& input, Output& output) {
+	//TODO add code here
+}
+
+void solveDP(Input& input, Output& output) {
 	//TODO add code here
 }
 
 int main() {
 	ios::sync_with_stdio(false);
+	
+	//read input
 	Input input;
 	cin >> input.r >> input.c >> input.l >> input.h;
 	for(int i = 0; i < input.r; i++) {
@@ -35,8 +41,11 @@ int main() {
 		//TODO do we read line breaks?
 	}
 	
+	//solve problem
 	Output output;
 	solve(input, output);
 	
-	//TODO print output
+	//print output
+	cout << output.slices.size() << endl;
+	
 };
