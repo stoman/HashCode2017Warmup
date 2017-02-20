@@ -18,7 +18,7 @@ struct Output {
 	vector<Slice> slices;
 };
 
-void solveSimple(Input& input, Output& output) {
+void solveSimpleHorizontal(Input& input, Output& output) {
 	for (int i = 0; i < input.r; i++)
 	{
 		for (int j = 0; j < input.c; j += input.h)
@@ -32,6 +32,23 @@ void solveSimple(Input& input, Output& output) {
 		}
 	}
 }
+
+void solveSimpleVertical(Input& input, Output& output) {
+	for (int j = 0; j < input.c; j++)
+	{
+		for (int i = 0; i < input.r; i += input.h)
+		{
+			Slice s;
+			s.r1 = i;
+			s.c1 = j;
+			s.r2 = min(i+input.h-1, input.r-1);
+			s.c2 = j;
+			output.slices.push_back(s);
+		}
+	}
+}
+
+
 
 int add_slice(const vector<bool> &a, int l, int r)	{
 	int cnt1 = 0, cnt2 = 0;
@@ -77,6 +94,7 @@ void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<S
 	}
 }
 
+
 void solveDP(Input& input, Output& output) {
 	
 	for (int i = 0; i < input.r; i++)
@@ -110,7 +128,7 @@ int main(int argc, char* argv[]) {
 	//solve problem
 	Output output;
 	if(algorithm == "simple") {
-		solveSimple(input, output);
+		solveSimpleHorizontal(input, output);
 	}
 	else if(algorithm == "dp") {
 		solveDP(input, output);
