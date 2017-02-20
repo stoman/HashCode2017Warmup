@@ -5,7 +5,7 @@ all: $(patsubst data/%.in,data/dp.%.ans,$(wildcard data/*.in)) $(patsubst data/%
 
 sample: data/dp.example.ans data/simplehorizontal.example.ans data/simplevertical.example.ans
 
-$(MAINFILE): $(MAINFILE).cpp
+$(MAINFILE): $(wildcard code/%.cpp)
 	$(CXX) -o $(MAINFILE) $(MAINFILE).cpp
 	
 visualize/%.class: $(@:%.class=%.java)
@@ -13,6 +13,9 @@ visualize/%.class: $(@:%.class=%.java)
 
 data/dp.%.ans: $(MAINFILE)
 	$(MAINFILE) dp < $(@:data/dp.%.ans=data/%.in) > $@
+
+data/dptranspose.%.ans: $(MAINFILE)
+	$(MAINFILE) dptranspose < $(@:data/dptranspose.%.ans=data/%.in) > $@
 
 data/simplehorizontal.%.ans: $(MAINFILE)
 	$(MAINFILE) simplehorizontal < $(@:data/simplehorizontal.%.ans=data/%.in) > $@
