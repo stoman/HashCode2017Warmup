@@ -22,7 +22,7 @@ public class AnswerToGnu {
 			int x2 = sc.nextInt();
 
 			System.out.println(
-					"set object " + i + " rect from " + (x1 - 0.1) + "," + (y1 - 0.1) + " to " + (x2 + 0.1) + "," + (y2 + 0.1));
+					"set object " + i + " rect from " + (x1 - 0.4) + "," + (y1 - 0.4) + " to " + (x2 + 0.4) + "," + (y2 + 0.4));
 		}
 	}
 }
