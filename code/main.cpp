@@ -147,6 +147,7 @@ int main(int argc, char* argv[]) {
 	
 	//solve problem
 	Output output;
+	cerr << "using algorithm " << algorithm << endl;
 	if(algorithm == "simplehorizontal") {
 		solveSimpleHorizontal(input, output);
 	}
@@ -157,7 +158,7 @@ int main(int argc, char* argv[]) {
 		solveDP(input, output);
 	}
 	else {
-		cerr << "unknown algorithm " << algorithm << endl;
+		cerr << "unknown algorithm" << endl;
 		return 1;
 	}
 	
