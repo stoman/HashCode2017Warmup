@@ -1,4 +1,5 @@
 #include "util.cpp"
+#include "diagonal.cpp"
 #include "dp.cpp"
 #include "simple.cpp"
 
@@ -44,6 +45,9 @@ int main(int argc, char* argv[]) {
 		transpose_input(input);
 		solveDP(input,output);
 		transpose_output(output);
+	}
+	else if(algorithm == "diagonal")	{
+		solveDiagonal(input,output);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;
