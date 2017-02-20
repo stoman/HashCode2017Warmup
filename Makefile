@@ -28,3 +28,11 @@ data/%.ans.dat: $(@:%.dat=%) visualize/AnswerToGnu.class
 
 data/dp.%.png: $(@:%.png=%.ans.dat) $(@:data/dp.%.png=data/%.in.dat)
 	gnuplot -e "datafile='$(@:data/dp.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
+
+data/simplehorizontal.%.png: $(@:%.png=%.ans.dat) $(@:data/simplehorizontal.%.png=data/%.in.dat)
+	gnuplot -e "datafile='$(@:data/simplehorizontal.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
+
+data/simplevertical.%.png: $(@:%.png=%.ans.dat) $(@:data/simplevertical.%.png=data/%.in.dat)
+	gnuplot -e "datafile='$(@:data/simplevertical.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
+
+visualize: $(patsubst data/%.in,data/dp.%.png,$(wildcard data/*.in)) $(patsubst data/%.in,data/simplehorizontal.%.png,$(wildcard data/*.in)) $(patsubst data/%.in,data/simplevertical.%.png,$(wildcard data/*.in))
