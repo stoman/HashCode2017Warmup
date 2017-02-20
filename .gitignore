@@ -1,3 +1,6 @@
+# Output files
+*.ans
+
 # Compiled Object files
 *.slo
 *.lo
