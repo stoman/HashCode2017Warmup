@@ -46,14 +46,14 @@ int add_slice(const vector<bool> &a, int l, int r)	{
 	return 0;
 }
 
-void solve_row(const vector<bool> &a, int row_index, int n, int l, int h, vector<slices> &ans)	{
+void solve_row(const vector<bool> &a, int row_num, int n, int l, int h, vector<Slice> &ans)	{
 	vector<int> d(n,0), prev(n,0);
 	
 	for (int i = 0; i < n; i++)
 		for (int j = 2*l; j <= h; j++)
 			 if (i-j+1 >= 0)
 			 {
-			 	int temp = add_slice(a,i-j+1,i))
+			 	int temp = add_slice(a,i-j+1,i);
 			 	if (d[i] < d[i-j+1] + temp)
 				{
 			 		d[i] = d[i-j+1] + temp;
@@ -73,13 +73,13 @@ void solve_row(const vector<bool> &a, int row_index, int n, int l, int h, vector
 	{
 		c.c1 = prev[i]; c.c2 = i;
 		i = prev[i]-1;
-		slices.push_back(c);
+		ans.push_back(c);
 	}
 }
 
 void solveDP(Input& input, Output& output) {
 	
-	for (int i = 0; i < r; i++)
+	for (int i = 0; i < input.r; i++)
 		solve_row(input.tomatoes[i],i,input.c,input.l,input.h,output.slices);
 }
 
