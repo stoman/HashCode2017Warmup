@@ -21,37 +21,33 @@ struct Output {
 
 bool checkSliceHorizontal(Input &input, Slice &s)
 {
-	bool t = false;
-	bool f = false;
+	int t = 0;
+	int f = 0;
 	for (int j = s.c1; j <= s.c2; j++)
 	{
 		if (input.tomatoes[s.r1][j])
-			t = true;
+			t++;
 		else
-			f = true;
-
-		if (t == true && f == true)
-			return true;
+			f++;
 	}
-	return false;
+	
+	return (t >= input.l && f >= input.l);
 }
 
 
 bool checkSliceVertical(Input &input, Slice &s)
 {
-	bool t = false;
-	bool f = false;
+	int t = 0;
+	int f = 0;
 	for (int i = s.r1; i <= s.r2; i++)
 	{
 		if (input.tomatoes[i][s.c1])
-			t = true;
+			t++;
 		else
-			f = true;
-
-		if (t == true && f == true)
-			return true;
+			f++;
 	}
-	return false;
+	
+	return (t >= input.l && f >= input.l);
 }
 
 
