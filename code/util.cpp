@@ -10,7 +10,7 @@ using namespace std;
 //util classes
 struct Input {
 	int r, c, l, h;
-	vector<vector<bool>> tomatoes;
+	vector<vector<char>> tomatoes;
 };
 
 struct Slice {
@@ -23,20 +23,12 @@ struct Output {
 
 //transpose functions
 void transpose_input(Input &input)	{
-
-	int temp_tomatoes[1010][1010];
-	
-	for (int i = 0; i < input.r; i++)
-	{
-		for (int j = 0; j < input.c; j++)
-			temp_tomatoes[j][i] = input.tomatoes[i][j];
-		input.tomatoes[i].clear();
-	}
-	input.tomatoes.resize(input.c);
-	swap(input.r, input.c);
+	vector<vector<char> > ttt(input.c, vector<char>(input.r));
 	for (int i = 0; i < input.r; i++)
 		for (int j = 0; j < input.c; j++)
-			input.tomatoes[i].push_back(temp_tomatoes[i][j]);
+			ttt.at(j).at(i) = input.tomatoes.at(i).at(j);
+	input.tomatoes = ttt;
+	swap(input.r,input.c);
 }
 
 void transpose_output(Output &output)	{

@@ -6,7 +6,7 @@ bool checkSlice(Input &input, Slice &s)
 	int f = 0;
 	for (int j = s.c1; j <= s.c2; j++)
 	{
-		if (input.tomatoes[s.r1][j])
+		if (input.tomatoes.at(s.r1).at(j))
 			t++;
 		else
 			f++;
