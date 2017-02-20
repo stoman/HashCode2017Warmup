@@ -193,5 +193,5 @@ int main(int argc, char* argv[]) {
 		area += (slice.r2 - slice.r1 + 1) * (slice.c2 - slice.c1 + 1);
 		cout << slice.r1 << ' ' << slice.c1 << ' ' << slice.r2 << ' ' << slice.c2 << endl;
 	}
-	cerr << area << endl;
+	cerr << "cells used: " << area << endl;
 };
