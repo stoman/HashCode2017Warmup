@@ -1,8 +1,14 @@
 #include "util.cpp"
 #include <algorithm>
 
+//helper function to sort larger slices up
+bool compareSlices(const pair<int, int>& lhs, const std::pair<int, int>& rhs) {
+ return lhs.first * lhs.second > rhs.first * rhs.second;
+};
+
 //compute possible slices
-vector<pair<int, int>> possible_slices(Input& input) {
+vector<pair<int, int>> possibleSlices(Input& input) {
+	//find all possible slices
 	vector<pair<int, int>> r;
 	for(int i = 1; i <= min(input.r, input.h); i++) {
 		for(int j = 1; j <= min(input.c, input.h); j++) {
@@ -11,20 +17,25 @@ vector<pair<int, int>> possible_slices(Input& input) {
 			}
 		}
 	}
+	//sort the larger ones up
+	sort(r.begin(), r.end(), compareSlices);
 	return r;
 }
 
 void solveDiagonal(Input& input, Output& output) {
-	vector<pair<int, int>> slices = possible_slices(input);
+	vector<pair<int, int>> slices = possibleSlices(input);
 	vector<vector<bool>> used(input.r, vector<bool>(input.c, false));
+	//iterate over field using diagonals
 	for(int s = 0; s < input.r + input.c - 2; s++) {
 		for(int x = 0; x <= min(input.r - 1, s); x++) {
 			int y = s - x;
+			//try to place a slice here
 			if(!used[x][y]) {
 				bool placed = false;
 				for(pair<int, int> slice: slices) {
 					if(!placed && x + slice.first <= input.r && y + slice.second <= input.c) {
 						//check whether this slice is ok
+						//this can be done much more efficiently, but the input is small...
 						bool ok = true;
 						vector<int> ingredients(2, 0);
 						for(int tx = x; tx < x + slice.first; tx++) {
