@@ -20,8 +20,54 @@ void solveSimple(Input& input, Output& output) {
 	//TODO add code here
 }
 
+int add_slice(const vector<bool> &a, int l, int r)	{
+	int cnt1 = 0, cnt2 = 0;
+	for (int i = l; i <= r; i++)
+		if (a[i])
+			cnt1++;
+		else
+			cnt2++;
+	
+	if (cnt1 >= l && cnt2 >= l)
+		return r-l+1;
+	return 0;
+}
+
+void solve_row(const vector<bool> &a, int row_index, int n, int l, int h, vector<slices> &ans)	{
+	vector<int> d(n,0), prev(n,0);
+	
+	for (int i = 0; i < n; i++)
+		for (int j = 2*l; j <= h; j++)
+			 if (i-j+1 >= 0)
+			 {
+			 	int temp = add_slice(a,i-j+1,i))
+			 	if (d[i] < d[i-j+1] + temp)
+				{
+			 		d[i] = d[i-j+1] + temp;
+					prev[i] = i-j+1;
+			 	}
+			}
+		
+	int i_max = 0;
+	for (int i = 0; i < n; i++)
+		if (d[i] > d[i_max])
+			i_max = i;
+	
+	Slice c;		
+	c.r1 = c.r2 = row_num;
+	
+	for (int i = i_max; i > 0; i--)
+	{
+		c.c1 = prev[i]; c.c2 = i;
+		i = prev[i]-1;
+		slices.push_back(c);
+	}
+}
+
 void solveDP(Input& input, Output& output) {
-	//TODO add code here
+	
+	for (int i = 0; i < r; i++)
+		solve_row(input.tomatoes[i],i,input.c,input.l,input.h,output.slices);
 }
 
 int main() {
