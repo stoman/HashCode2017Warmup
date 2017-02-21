@@ -19,7 +19,7 @@ int getWorstPool(Input &input, vector<int> &totalPoolCap, vector<vector<int>> &r
 				garantiert = rem;
 			}
 		}
-		if (garantiert < wp_val || (garantiert == wp_val && totalPoolCap[pool] < totalPoolCap[wp]))
+		if (garantiert < wp_val || (garantiert == wp_val && totalPoolCap[pool] > totalPoolCap[wp]))
 		{
 			wp = pool;
 			wp_val = garantiert;

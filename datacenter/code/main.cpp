@@ -1,4 +1,5 @@
 #include "util.cpp"
+#include "improvesolution.cpp"
 #include "mockplaceservers.cpp"
 #include "placeservers.cpp"
 #include "poolservers.cpp"
@@ -6,7 +7,8 @@
 //input/output code
 int main(int argc, char* argv[]) {
 	ios::sync_with_stdio(false);
-	
+	srand(time(NULL));
+
 	//read input
 	Input input;
 	readInput(input, cin);
@@ -21,22 +23,27 @@ int main(int argc, char* argv[]) {
 	if(algorithm == "full-1") {
 		placeServers(input);
 		poolServers(input, input.r - 1);
+		improveSolution(input);
 	}
 	else if(algorithm == "full-1-2") {
 		placeServers(input);
 		poolServers(input, input.r / 2);
+		improveSolution(input);
 	}
 	else if(algorithm == "full-2-3") {
 		placeServers(input);
 		poolServers(input, input.r * 2 / 3);
+		improveSolution(input);
 	}
 	else if(algorithm == "full-3-4") {
 		placeServers(input);
 		poolServers(input, input.r * 3 / 4);
+		improveSolution(input);
 	}
 	else if(algorithm == "mockplacement") {
 		mockPlaceServers(input);
 		poolServers(input, input.r * 2 / 3);
+		improveSolution(input);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;

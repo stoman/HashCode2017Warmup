@@ -56,7 +56,7 @@ int gradeFile(ifstream& in, ifstream& ans) {
       maxc = max(maxc, i);
     }
     r = min(r, sum - maxc);
-    cerr << sum - maxc << endl;
+    //cerr << sum - maxc << endl;
   }
 
   return r;
