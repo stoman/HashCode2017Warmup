@@ -6,8 +6,6 @@ bool compareByEfficiency(const Server &a, const Server &b) {
 }
 
 void mockPlaceServers(Input &input) {
-  vector<int> tc(input.r, 0);
-
   sort(input.servers.begin(), input.servers.end(), compareByEfficiency);
   vector<vector<bool>> slotsBlocked(input.r, vector<bool>(input.s, false));
   for(int i = 0; i < input.r; i++) {
@@ -28,12 +26,9 @@ void mockPlaceServers(Input &input) {
         }
         input.servers[i].row = i % input.r;
         input.servers[i].slot = j;
-        tc[input.servers[i].row] += input.servers[i].capacity;
         //go to next
         j = input.s;
       }
     }
   }
-
-  for(int ttc: tc) cerr << ttc << endl;
 }

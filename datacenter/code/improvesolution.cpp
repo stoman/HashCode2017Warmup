@@ -75,7 +75,7 @@ void improveSolutionOneTime(Input &input) {
 }
 
 void improveSolution(Input &input) {
-  for(int i = 0; i < 150000; i++) {
+  for(int i = 0; i < 500000; i++) {
     improveSolutionOneTime(input);
   }
 }
