@@ -87,7 +87,7 @@ void placeServers(Input &input) {
 			{
 				rows[j].area -= input.servers[i].size;
 				rows[j].capacity += input.servers[i].capacity;
-				input.servers[i].row = row[j].num;
+				input.servers[i].row = rows[j].num;
 			}
 		}
 	}
