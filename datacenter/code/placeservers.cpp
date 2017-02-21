@@ -1,20 +1,5 @@
 #include "util.cpp"
 
-/*
-//util classes
-struct Server {
-	//input
-	int capacity, size;
-	//output
-	int row = -1, slot = -1, pool = -1;
-};
-
-struct Input {
-	int r, s, u, p, m;
-	vector<vector<int>> blocked_slots;//first index: row, second index: slot
-	vector<Server> servers;
-};
-*/
 
 struct Row {
 	int num, area, capacity;
@@ -29,7 +14,7 @@ bool sort_servers(const Server &a, const Server &b)	{
 
 bool sort_rows(const Row &a, const Row &b)	{
 	if (a.capacity*b.area != b.capacity*a.area)
-		return a.capacity*b.area > b.capacity*a.area;
+		return a.capacity*b.area < b.capacity*a.area;
 	else
 		return a.area < b.area;
 }
@@ -43,7 +28,7 @@ void place_blocked_slots(vector<vector<int>>& field, Row &row, int row_index, ve
 }
 
 bool assign_server_to_row(int s, vector<int>& field, Server &server)	{
-	for (int i = 0; i < s-server.size; i++)
+	for (int i = 0; i <= s-server.size; i++)
 	{	
 	 	int cnt_occ = 0;
 		for (int j = 0; j < server.size; j++)
@@ -79,15 +64,29 @@ void placeServers(Input &input) {
 	for (int i = 0; i < input.m; i++)
 	{
 		sort(rows.begin(),rows.end(),sort_rows);
-	
+		
+		/*
+		cerr << "server: " << input.servers[i].capacity << ' ' << input.servers[i].size << endl;
+		for (int j = 0; j < rows.size(); j++)
+			cerr << rows[j].num << ' ' << rows[j].capacity << ' ' << rows[j].area << endl;;
+		cerr << endl;
+		
+		for (int j = 0; j < input.r; j++)
+		{
+			for (int l = 0; l < input.s; l++)
+				cerr << field[j][l];
+			cerr << endl;
+		}*/
+		
 		// try to assign each server to worst possible row
 		for (int j = 0; j < input.r; j++)
 		{
-			if (assign_server_to_row(input.s,field[j],input.servers[i]))
+			if (assign_server_to_row(input.s,field[rows[j].num],input.servers[i]))
 			{
 				rows[j].area -= input.servers[i].size;
 				rows[j].capacity += input.servers[i].capacity;
 				input.servers[i].row = rows[j].num;
+				break;
 			}
 		}
 	}
