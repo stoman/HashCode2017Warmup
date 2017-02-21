@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class AnswerToGnu {
+public class Find {
 	public static void main(String[] args) throws IOException {
 
 		String infile = args[0];
@@ -34,12 +35,12 @@ public class AnswerToGnu {
 			grid[ri][ci] = true;
 		}
 
-//		for (int i = 0; i < r; i++) {
-//			for (int j = 0; j < s; j++) {
-//				System.out.println(j + " " + i + " " + (grid[i][j] ? "1" : "2"));
-//			}
-//		}
-		
+		// for (int i = 0; i < r; i++) {
+		// for (int j = 0; j < s; j++) {
+		// System.out.println(j + " " + i + " " + (grid[i][j] ? "1" : "2"));
+		// }
+		// }
+
 		List<Integer> sizes = new ArrayList<>();
 		List<Integer> caps = new ArrayList<>();
 		for (int i = 0; i < m; i++) {
@@ -48,24 +49,31 @@ public class AnswerToGnu {
 			sizes.add(size);
 			caps.add(cap);
 		}
-		
+
 		BufferedReader ansscan = new BufferedReader(new FileReader(ans));
+
+		Color[] colors = generateColors(100);
 
 		for (int i = 0; i < m; i++) {
 			String l = ansscan.readLine();
-			if (!l.startsWith("x")) {
-				Scanner lscan = new Scanner(l);
-				int row = lscan.nextInt();
-				int col = lscan.nextInt();
-				int pool = lscan.nextInt();
-				lscan.close();
-				System.out.println("set object " + (i+1) + " rect from " + (col - 0.4) + ", " + (row - 0.4) + " to " + (col + (sizes.get(i) - 1) + 0.4) + ", " + (row + 0.4) + " fs empty border lc palette frac " + toCol(caps.get(i)) + " lw 2");
-				System.out.println("set label " + (i+1) + " \"" + pool + "\" at " + (col + ((sizes.get(i) - 1) / 2.0)) + ", " + row + " front center");
+			if (l.startsWith("x")) {
+				System.out.println("cap " + caps.get(i) + ", size " + sizes.get(i));
+				
 			}
 		}
 	}
 
-	public static double toCol(int n) {
-		return ((double) Math.min(n, 100)) / 100 ;
+	public static Color[] generateColors(int n) {
+		Color[] cols = new Color[n];
+		for (int i = 0; i < n; i++) {
+			cols[i] = Color.getHSBColor((float) i / (float) n, 0.85f, 1.0f);
+		}
+		return cols;
+	}
+
+	public static String toCol(Color[] col, int n) {
+		Color c = col[Math.min(n, 100)];
+		String hex = "#" + Integer.toHexString(c.getRGB()).substring(2);
+		return hex;
 	}
 }

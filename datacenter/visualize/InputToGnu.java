@@ -29,7 +29,7 @@ public static void main(String[] args) throws FileNotFoundException {
 	
 	for (int i = 0; i < r; i++) {
 		for (int j = 0; j < s; j++) {
-			System.out.println(j + " " + i + " " + (grid[i][j] ? "1" : "2"));
+			System.out.println(j + " " + i + " " + (grid[i][j] ? "1" : "0"));
 		}
 	}
 	
