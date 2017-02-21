@@ -13,10 +13,16 @@ visualizations: $(ALLVISUALIZATIONS)
 sample: $(foreach strategy, $(STRATEGIES), data/$(strategy).example.ans)
 
 build: clean
-	zip build.zip code visualizations README.md Makefile LICENSE .gitignore
+	zip build.zip code visualizations README.md Makefile LICENSE .gitignore grader
 
 clean:
-	rm -f $(MAINFILE) $(ALLOUTPUTS) $(ALLVISUALIZATIONS)
+	rm -f $(MAINFILE) $(ALLOUTPUTS) $(ALLVISUALIZATIONS) grader/main grades.html
+
+grader/main: $(wildcard grader/*.cpp)
+	$(CXX) -o grader/main grader/main.cpp
+
+grades.html: grader/main $(ALLOUTPUTS)
+	grader/main > grades.html
 
 $(MAINFILE): $(wildcard code/*.cpp)
 	$(CXX) -o $(MAINFILE) $(MAINFILE).cpp

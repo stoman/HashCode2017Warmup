@@ -3,6 +3,8 @@
 *.png
 *.zip
 code/main
+grader/main
+grades.html
 
 # Compiled Object files
 *.slo
