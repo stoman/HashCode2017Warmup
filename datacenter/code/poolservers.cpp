@@ -3,35 +3,30 @@
 #include <algorithm>
 #include <utility>
 
-void getWorstPools(Input &input, vector<int> &totalPoolCap, vector<vector<int>> &rowPoolSize, vector<int> &worstPoolIds)
+int getWorstPool(Input &input, vector<int> &totalPoolCap, vector<vector<int>> &rowPoolSize)
 {
-	vector<int> minPoolCap(input.p, numeric_limits<int>::max());
-	//vector<int> minPoolCapRow(input.p, -1);
-
-	for (int row = 0; row < input.r; row++)
+	int wp = -1;
+	int wp_val = numeric_limits<int>::max();
+	for (int pool = 0; pool < input.p; pool++)
 	{
-		// this 'row' fails
-		for (int pool = 0; pool < input.p; pool++)
+		int garantiert = numeric_limits<int>::max();
+		for (int row = 0; row < input.r; row++)
 		{
 			// compute remaining pool capacity
 			int rem = totalPoolCap[pool] - rowPoolSize[row][pool];
-			if (rem < minPoolCap[pool])
+			if (rem < garantiert)
 			{
-				minPoolCap[pool] = rem;
-				//minPoolCapRow[pool] = row;
+				garantiert = rem;
 			}
 		}
+		if (garantiert < wp_val)
+		{
+			wp = pool;
+			wp_val = garantiert;
+		}
 	}
-
-	// find the worst pool
-	vector<pair<int,int>> worstPools;
-	for (int pool = 0; pool < input.p; pool++)
-		worstPools.push_back(make_pair(minPoolCap[pool], pool));
-	sort(worstPools.begin(), worstPools.end());
-	for (int pool = 0; pool < input.p; pool++)
-		worstPoolIds.push_back(worstPools[pool].second);
+	return wp;
 }
-
 
 
 void findMinRows(Input &input, vector<vector<int>> &rowPoolSize, int pool, vector<int> &minRows)
@@ -65,36 +60,30 @@ int getFreeServerIdx(vector<Server> &servers, int row)
 void poolServers(Input& input) 
 {
 	vector<int> totalPoolCap(input.p, 0);
-	vector<vector<int>> rowPoolSize(input.r, vector<int>(input.p, 0));
+	vector<vector<int>> rowPoolCap(input.r, vector<int>(input.p, 0));
 
 	while (true)
 	{
 		bool serverAddedToPool = false;
 		// pool single server
 		// locate worst pool
-		vector<int> worstPoolIds;
-		getWorstPools(input, totalPoolCap, rowPoolSize, worstPoolIds);
+		int wp = getWorstPool(input, totalPoolCap, rowPoolCap);
 
-		for (int wp : worstPoolIds)
+		vector<int> minRows;
+		findMinRows(input, rowPoolCap, wp, minRows);
+
+		for (int mr : minRows)
 		{
-			vector<int> minRows;
-			findMinRows(input, rowPoolSize, wp, minRows);
-
-			for (int mr : minRows)
-			{
-				int freeServerIdx = getFreeServerIdx(input.servers, mr);
-				if (freeServerIdx != -1)
-				{	
-					Server &fs = input.servers[freeServerIdx];
-					fs.pool = wp;
-					totalPoolCap[wp] += fs.capacity;
-					rowPoolSize[mr][wp] += fs.capacity;
-					serverAddedToPool = true;
-					break;
-				}
-			}
-			if (serverAddedToPool)
+			int freeServerIdx = getFreeServerIdx(input.servers, mr);
+			if (freeServerIdx != -1)
+			{	
+				Server &fs = input.servers[freeServerIdx];
+				fs.pool = wp;
+				totalPoolCap[wp] += fs.capacity;
+				rowPoolCap[mr][wp] += fs.capacity;
+				serverAddedToPool = true;
 				break;
+			}
 		}
 		if (!serverAddedToPool)
 			break;
