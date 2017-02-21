@@ -18,17 +18,30 @@ int main(int argc, char* argv[]) {
 	}
 		
 	//solve problem
-	if(algorithm == "full") {
+	if(algorithm == "full-1") {
 		placeServers(input);
+		poolServers(input, input.r - 1);
+	}
+	else if(algorithm == "full-1-2") {
+		placeServers(input);
+		poolServers(input, input.r / 2);
+	}
+	else if(algorithm == "full-2-3") {
+		placeServers(input);
+		poolServers(input, input.r * 2 / 3);
+	}
+	else if(algorithm == "full-3-4") {
+		placeServers(input);
+		poolServers(input, input.r * 3 / 4);
 	}
 	else if(algorithm == "mockplacement") {
 		mockPlaceServers(input);
+		poolServers(input, input.r * 2 / 3);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;
 		return 1;
 	}
-	poolServers(input);
 	
 	//print output
 	sort(input.servers.begin(), input.servers.end(), compareById);
