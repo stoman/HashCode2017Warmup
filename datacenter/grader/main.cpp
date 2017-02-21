@@ -7,12 +7,55 @@
 #include <set>
 #include <string>
 
+#include "../code/util.cpp"
+
 using namespace std;
 
 //grade one single test case
 int gradeFile(ifstream& in, ifstream& ans) {
-  //fill me
-  return -1;
+  //read input
+  Input input;
+  readInput(input, in);
+  vector<vector<int>> capacities(input.p, vector<int>(input.r, 0));
+  vector<vector<bool>> slotsBlocked(input.r, vector<bool>(input.s, false));
+  for(int i = 0; i < input.r; i++) {
+    for(int j: input.blocked_slots[i]) {
+      slotsBlocked[i][j] = true;
+    }
+  }
+  //read answer
+  for(int i = 0; i < input.m; i++) {
+    string t;
+    ans >> t;
+    if(t.compare("x")) {
+      int r, s, p;
+      r = stoi(t);
+      ans >> s >> p;
+      capacities[p][r] += input.servers[i].capacity;
+      //check server validity
+      for(int j = s; j < s + input.servers[i].size; j++) {
+        if(slotsBlocked[r][j]) {
+          return -1;
+        }
+        if(j < 0 || j >= input.s) {
+          return -2;
+        }
+        slotsBlocked[r][j] = true;
+      }
+    }
+  }
+  //compute score
+  int r = 99999;
+  for(vector<int> capacity: capacities) {
+    int maxc = 0, sum = 0;
+    for(int i: capacity) {
+      sum += i;
+      maxc = max(maxc, i);
+    }
+    r = min(r, sum - maxc);
+  }
+
+  return r;
 }
 
 //iterate over all test cases

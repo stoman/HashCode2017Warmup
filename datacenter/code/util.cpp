@@ -22,4 +22,28 @@ struct Input {
 	vector<Server> servers;
 };
 
+//input handling
+bool compareById(const Server &a, const Server &b) {
+  return a.id < b.id;
+}
+
+void readInput(Input& input, istream& in) {
+	in >> input.r >> input.s >> input.u >> input.p >> input.m;
+	input.blocked_slots.resize(input.r);
+	for(int i = 0; i < input.u; i++) {
+		int r, s;
+		in >> r >> s;
+		input.blocked_slots[r].push_back(s);
+	}
+	for(int i = 0; i < input.m; i++) {
+		int z, c;
+		in >> z >> c;
+		Server server;
+		server.id = i;
+		server.capacity = c;
+		server.size = z;
+		input.servers.push_back(server);
+	}
+}
+
 #endif
