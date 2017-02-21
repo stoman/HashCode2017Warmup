@@ -29,17 +29,19 @@ void getWorstPools(Input &input, vector<int> &totalPoolCap, vector<vector<int>> 
 		worstPools.push_back(make_pair(minPoolCap[pool], pool));
 	sort(worstPools.begin(), worstPools.end());
 	for (int pool = 0; pool < input.p; pool++)
-		worstPoolsId.push_back(worstPools[i].second);
+		worstPoolIds.push_back(worstPools[pool].second);
 }
 
 
 
-void findMinRows(vector<vector<int>> &rowPoolSize, int pool, vector<int> &minRows)
+void findMinRows(Input &input, vector<vector<int>> &rowPoolSize, int pool, vector<int> &minRows)
 {
 	vector<pair<int, int>> minCapRow;
 	for (int row = 0; row < input.r; row++)
-		minCapRow.push_back(make_pair(rowPoolSize[row][worstPool], row));
+		minCapRow.push_back(make_pair(rowPoolSize[row][pool], row));
 	sort(minCapRow.begin(), minCapRow.end());
+	for (int row = 0; row < minCapRow.size(); row++)
+		minRows.push_back(minCapRow[row].second);
 }
 
 
@@ -76,14 +78,14 @@ void poolServers(Input& input)
 		for (int wp : worstPoolIds)
 		{
 			vector<int> minRows;
-			findMinRows(rowPoolSize, wp, minRows);
+			findMinRows(input, rowPoolSize, wp, minRows);
 
 			for (int mr : minRows)
 			{
-				int freeServerIdx = getFreeServerIdx(servers, mr);
+				int freeServerIdx = getFreeServerIdx(input.servers, mr);
 				if (freeServerIdx != -1)
 				{	
-					Server &fs = servers[freeServerIdx];
+					Server &fs = input.servers[freeServerIdx];
 					fs.pool = wp;
 					totalPoolCap[wp] += fs.capacity;
 					rowPoolSize[mr][wp] += fs.capacity;
