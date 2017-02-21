@@ -136,8 +136,8 @@ void placeServers(Input &input) {
 			if (input.servers[j].row == i)
 				row_cap += input.servers[j].capacity;
 		
-		cerr << "row #" << i << ": " << row_cap << endl; 
+		//cerr << "row #" << i << ": " << row_cap << endl; 
 	}	
 	
-	cerr << "total: " << total_cap << endl;
+	//cerr << "total: " << total_cap << endl;
 }
