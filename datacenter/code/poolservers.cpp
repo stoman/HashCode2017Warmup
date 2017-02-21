@@ -40,14 +40,25 @@ void findMinRows(Input &input, vector<vector<int>> &rowPoolSize, int pool, vecto
 }
 
 
-int getFreeServerIdx(vector<Server> &servers, int row)
+bool inVector(vector<int> &vec, int k)
+{
+	for (int v : vec)
+	{
+		if (v == k)
+			return true;
+	}
+	return false;
+}
+
+
+int getFreeServerIdx(vector<Server> &servers, vector<int> &rows)
 {
 	int maxCap = -1;
 	int maxServerIdx = -1;
 	for (int i = 0; i < servers.size(); i++)
 	{
 		Server &s = servers[i];
-		if ((s.row == row) && (s.pool == -1) && (s.capacity > maxCap))
+		if ((inVector(rows, s.row)) && (s.pool == -1) && (s.capacity > maxCap))
 		{
 			maxCap = s.capacity;
 			maxServerIdx = i;
@@ -59,6 +70,7 @@ int getFreeServerIdx(vector<Server> &servers, int row)
 
 void poolServers(Input& input) 
 {
+	const int SLICE = input.r * 2 / 3;
 	vector<int> totalPoolCap(input.p, 0);
 	vector<vector<int>> rowPoolCap(input.r, vector<int>(input.p, 0));
 
@@ -72,15 +84,29 @@ void poolServers(Input& input)
 		vector<int> minRows;
 		findMinRows(input, rowPoolCap, wp, minRows);
 
-		for (int mr : minRows)
+
+		vector<int> mr(minRows.begin(), minRows.begin() + SLICE);
+		int freeServerIdx = getFreeServerIdx(input.servers, mr);
+		if (freeServerIdx != -1)
+		{	
+			Server &fs = input.servers[freeServerIdx];
+			fs.pool = wp;
+			totalPoolCap[wp] += fs.capacity;
+			rowPoolCap[fs.row][wp] += fs.capacity;
+			serverAddedToPool = true;
+			continue;
+		}
+
+		for (int r = SLICE; r < minRows.size(); r++)
 		{
+			vector<int> mr(1, minRows[r]);
 			int freeServerIdx = getFreeServerIdx(input.servers, mr);
 			if (freeServerIdx != -1)
 			{	
 				Server &fs = input.servers[freeServerIdx];
 				fs.pool = wp;
 				totalPoolCap[wp] += fs.capacity;
-				rowPoolCap[mr][wp] += fs.capacity;
+				rowPoolCap[fs.row][wp] += fs.capacity;
 				serverAddedToPool = true;
 				break;
 			}
