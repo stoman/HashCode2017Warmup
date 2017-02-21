@@ -1,6 +1,7 @@
 #ifndef utils
 #define utils
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,7 +11,7 @@ using namespace std;
 //util classes
 struct Server {
 	//input
-	int capacity, size;
+	int capacity, size, id;
 	//output
 	int row = -1, slot = -1, pool = -1;
 };
