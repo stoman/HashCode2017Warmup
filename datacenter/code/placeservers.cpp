@@ -34,11 +34,11 @@ bool sort_rows(const Row &a, const Row &b)	{
 		return a.area < b.area;
 }
 
-void place_blocked_slots(vector<vector<int>>& field, int row_index, vector<int>& slots)	{
+void place_blocked_slots(vector<vector<int>>& field, Row &row, int row_index, vector<int>& slots)	{
 	for (int i = 0; i < slots.size(); i++)
 	{
 		field[row_index][slots[i]] = 1;
-		row[row_index].area--;
+		row.area--;
 	}
 }
 
@@ -47,13 +47,15 @@ void assign_server_to_row(Server &s, int row_index)	{
 }
 
 void placeServers(Input &input) {
-	sort(input.servers.begin(),input.servers.end(),sort_servers);
+	sort(input.servers.begin(),input.servers.end(),sort_servers);	
+	vector<vector<int>> field;
+	Row rows[16];
 	
 	for (int i = 0; i < input.r; i++)
 	{
 		rows[i].num = i;
 		rows[i].area = input.s;
-		place_blocked_slots(i,input.blocked_slots[i]);
+		//place_blocked_slots(i,input.blocked_slots[i]);
 	}
 	
 	// iterate through all servers
@@ -62,13 +64,13 @@ void placeServers(Input &input) {
 		sort(rows,rows+input.r,sort_rows);
 	
 		// try to assign each server to worst possible row
-		for (int j = 0; j < input.r; j++)
+		/*for (int j = 0; j < input.r; j++)
 		{
 			if (assign_server_to_row(input.servers[i],j))
 			{
 				rows[j].area -= input.servers[i].size;
 				rows[j].capacity += input.servers[i].capacity;
 			}
-		}
+		}*/
 	}
 }
