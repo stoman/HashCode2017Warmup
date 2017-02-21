@@ -14,20 +14,21 @@ void mockPlaceServers(Input &input) {
       slotsBlocked[i][j] = true;
     }
   }
-  for(int i = 0; i < input.s; i++) {
-    for(int j = 0; j < input.u - input.servers[i].size; j++) {
+  for(int i = 0; i < input.m; i++) {
+    for(int j = 0; j < input.s - input.servers[i].size; j++) {
       bool ok = true;
       for(int k = j; k < j + input.servers[i].size; k++) {
         ok &= !slotsBlocked[i % input.r][k];
       }
       if(ok) {
-        //go to next
-        j = input.u;
+        //place server
         for(int k = j; k < j + input.servers[i].size; k++) {
           slotsBlocked[i % input.r][k] = true;
         }
         input.servers[i].row = i % input.r;
         input.servers[i].slot = j;
+        //go to next
+        j = input.s;
       }
     }
   }
