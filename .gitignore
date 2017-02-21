@@ -2,9 +2,9 @@
 *.ans
 *.png
 *.zip
-code/main
-grader/main
-grades.html
+pizza/code/main
+pizza/grader/main
+pizza/grades.html
 
 # Compiled Object files
 *.slo
