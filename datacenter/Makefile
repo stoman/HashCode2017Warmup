@@ -36,8 +36,8 @@ data/simple.%.ans: $(MAINFILE)
 data/%.in.dat: visualize/InputToGnu.class
 	java -cp visualize InputToGnu < $(@:%.dat=%) > $@
 
-data/%.ans.dat: data/%.ans visualize/AnswerToGnu.class
-	java -cp visualize AnswerToGnu < $(@:%.dat=%) > $@
+data/simple.%.ans.dat: data/simple.%.ans visualize/AnswerToGnu.class
+	java -cp visualize AnswerToGnu $(@:data/simple.%.ans.dat=data/%.in) $(@:%.dat=%) > $@
 
 data/simple.%.png: data/simple.%.ans.dat data/%.in.dat
 	gnuplot -e "datafile='$(@:data/simple.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
