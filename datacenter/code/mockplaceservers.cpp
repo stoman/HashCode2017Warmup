@@ -15,7 +15,7 @@ void mockPlaceServers(Input &input) {
     }
   }
   for(int i = 0; i < input.m; i++) {
-    for(int j = 0; j < input.s - input.servers[i].size; j++) {
+    for(int j = 0; j <= input.s - input.servers[i].size; j++) {
       bool ok = true;
       for(int k = j; k < j + input.servers[i].size; k++) {
         ok &= !slotsBlocked[i % input.r][k];
