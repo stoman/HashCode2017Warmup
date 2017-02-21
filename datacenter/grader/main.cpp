@@ -31,14 +31,17 @@ int gradeFile(ifstream& in, ifstream& ans) {
       int r, s, p;
       r = stoi(t);
       ans >> s >> p;
+      if(p < 0 || p >= input.p) {
+        return -1;
+      }
       capacities[p][r] += input.servers[i].capacity;
       //check server validity
       for(int j = s; j < s + input.servers[i].size; j++) {
         if(slotsBlocked[r][j]) {
-          return -1;
+          return -2;
         }
         if(j < 0 || j >= input.s) {
-          return -2;
+          return -3;
         }
         slotsBlocked[r][j] = true;
       }
