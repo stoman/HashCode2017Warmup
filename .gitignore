@@ -5,6 +5,9 @@
 pizza/code/main
 pizza/grader/main
 pizza/grades.html
+datacenter/code/main
+datacenter/grader/main
+datacenter/grades.html
 
 # Compiled Object files
 *.slo
