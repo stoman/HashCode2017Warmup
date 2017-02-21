@@ -19,7 +19,7 @@ int getWorstPool(Input &input, vector<int> &totalPoolCap, vector<vector<int>> &r
 				garantiert = rem;
 			}
 		}
-		if (garantiert < wp_val)
+		if (garantiert < wp_val || (garantiert == wp_val && totalPoolCap[pool] < totalPoolCap[wp]))
 		{
 			wp = pool;
 			wp_val = garantiert;
@@ -68,9 +68,8 @@ int getFreeServerIdx(vector<Server> &servers, vector<int> &rows)
 }
 
 
-void poolServers(Input& input) 
+void poolServers(Input& input, int SLICE) 
 {
-	const int SLICE = input.r * 2 / 3;
 	vector<int> totalPoolCap(input.p, 0);
 	vector<vector<int>> rowPoolCap(input.r, vector<int>(input.p, 0));
 
