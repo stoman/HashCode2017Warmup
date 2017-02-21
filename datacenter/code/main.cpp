@@ -1,4 +1,5 @@
 #include "util.cpp"
+#include "mockplaceservers.cpp"
 #include "placeservers.cpp"
 #include "poolservers.cpp"
 
@@ -10,10 +11,23 @@ int main(int argc, char* argv[]) {
 	Input input;
 	readInput(input, cin);
 
-	//TODO read command line args
+	//read command line args
+	string algorithm = "full";
+	if(argc > 1) {
+		algorithm = argv[1];
+	}
 		
 	//solve problem
-	placeServers(input);
+	if(algorithm == "full") {
+		placeServers(input);
+	}
+	else if(algorithm == "mockplacement") {
+		mockPlaceServers(input);
+	}
+	else {
+		cerr << "unknown algorithm" << endl;
+		return 1;
+	}
 	poolServers(input);
 	
 	//print output

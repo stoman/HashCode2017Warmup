@@ -1,6 +1,6 @@
 CXX=g++ -std=c++11
 MAINFILE=code/main
-STRATEGIES=simple
+STRATEGIES=full mockplacement
 ALLOUTPUTS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.ans, $(wildcard data/*.in)))
 ALLVISUALIZATIONS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.png, $(filter-out data/big.in, $(wildcard data/*.in))))
 
@@ -30,15 +30,24 @@ $(MAINFILE): $(wildcard code/*.cpp)
 visualize/%.class: $(@:%.class=%.java)
 	javac -cp visualize $(@:%.class=%.java)
 
-data/simple.%.ans: $(MAINFILE)
-	$(MAINFILE) simple < $(@:data/simple.%.ans=data/%.in) > $@
+data/full.%.ans: $(MAINFILE)
+	$(MAINFILE) full < $(@:data/full.%.ans=data/%.in) > $@
+
+data/mockplacement.%.ans: $(MAINFILE)
+	$(MAINFILE) mockplacement < $(@:data/mockplacement.%.ans=data/%.in) > $@
 
 data/%.in.dat: visualize/InputToGnu.class
 	java -cp visualize InputToGnu < $(@:%.dat=%) > $@
 
-data/simple.%.ans.dat: data/simple.%.ans visualize/AnswerToGnu.class
-	java -cp visualize AnswerToGnu $(@:data/simple.%.ans.dat=data/%.in) $(@:%.dat=%) > $@
+data/full.%.ans.dat: data/full.%.ans visualize/AnswerToGnu.class
+	java -cp visualize AnswerToGnu $(@:data/full.%.ans.dat=data/%.in) $(@:%.dat=%) > $@
 
-data/simple.%.png: data/simple.%.ans.dat data/%.in.dat
-	gnuplot -e "datafile='$(@:data/simple.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
+data/full.%.png: data/full.%.ans.dat data/%.in.dat
+	gnuplot -e "datafile='$(@:data/full.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
+
+data/mockplacement.%.ans.dat: data/mockplacement.%.ans visualize/AnswerToGnu.class
+	java -cp visualize AnswerToGnu $(@:data/mockplacement.%.ans.dat=data/%.in) $(@:%.dat=%) > $@
+
+data/mockplacement.%.png: data/mockplacement.%.ans.dat data/%.in.dat
+	gnuplot -e "datafile='$(@:data/mockplacement.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
 
