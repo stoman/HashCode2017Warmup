@@ -129,4 +129,5 @@ void placeServers(Input &input) {
 		total_cap += row_cap;
 		total_cnt += cnt_per_row;
 	}	
+	// just trying to avoiding typing my password every time 
 }
