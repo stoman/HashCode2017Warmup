@@ -127,17 +127,19 @@ void placeServers(Input &input) {
 		}
 	}
 	
-	int total_cap = 0;
+	int total_cap = 0, total_cnt = 0;
 	
 	for (int i = 0; i < input.r; i++)
 	{	
 		int row_cap = 0;
+		int cnt_per_row = 0;
 		for (int j = 0; j < input.m; j++)
 			if (input.servers[j].row == i)
+			{
 				row_cap += input.servers[j].capacity;
-		
-		//cerr << "row #" << i << ": " << row_cap << endl; 
+				cnt_per_row++;
+			}
+		total_cap += row_cap;
+		total_cnt += cnt_per_row;
 	}	
-	
-	//cerr << "total: " << total_cap << endl;
 }
