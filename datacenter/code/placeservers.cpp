@@ -67,19 +67,6 @@ void placeServers(Input &input) {
 	{
 		sort(rows.begin(),rows.end(),sort_rows);
 		
-		/*
-		cerr << "server: " << input.servers[i].capacity << ' ' << input.servers[i].size << endl;
-		for (int j = 0; j < rows.size(); j++)
-			cerr << rows[j].num << ' ' << rows[j].capacity << ' ' << rows[j].area << endl;;
-		cerr << endl;
-		
-		for (int j = 0; j < input.r; j++)
-		{
-			for (int l = 0; l < input.s; l++)
-				cerr << field[j][l];
-			cerr << endl;
-		}*/
-		
 		// try to assign each server to worst possible row
 		for (int j = 0; j < input.r; j++)
 		{
