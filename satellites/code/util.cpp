@@ -12,10 +12,30 @@
 using namespace std;
 
 //util classes
-struct SomeClass {
+struct Object {
+	long long lon, lat;
+	bool done;
+	int collection_id;
+};
+
+struct Collection {
+	long long v, l, r;
+	int id;
+	bool done;
+	vector<Object> objects;
+	vector<pair<long long, long long>> time_ranges;
+};
+
+struct Satellite {
+	long long lon, lat, v, w, d;
+	map<long long, Object> photos;
 };
 
 struct Input {
+	long long t;
+	int s, c;
+	vector<Satellite> satellites;
+	vector<Collection> collections;
 };
 
 //input handling

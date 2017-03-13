@@ -1,6 +1,5 @@
 #include "util.cpp"
-#include "part1.cpp"
-#include "part2.cpp"
+#include "schedule_photos.cpp"
 
 //input/output code
 int main(int argc, char* argv[]) {
@@ -20,8 +19,7 @@ int main(int argc, char* argv[]) {
 	//solve problem
 	cerr << "using algorithm " << algorithm << endl;
 	if(algorithm == "mock") {
-		part1(input);
-		part2(input);
+		schedule_photos(input);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;
