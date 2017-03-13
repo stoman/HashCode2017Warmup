@@ -14,7 +14,7 @@ bool try_photo(Input& input, Object& object, Collection& collection) {
 		vector<pair<ll, ll>> intervals = possible_intervals(input, satellite, object);
 		for(pair<ll, ll>& time_range: collection.time_ranges) {
 			for(pair<ll, ll> interval: intervals) {
-				for(ll time = max(interval.first, time_range.first); time < min(interval.second, time_range.second); time++) {	
+				for(ll time = max(interval.first, time_range.first); time < min(interval.second, time_range.second); time+=1000) {
 					if(photo_fits_schedule(input, satellite, object, time)) {
 						input.objects[make_pair(object.lat, object.lon)].done = true;
 						satellite.photos[time] = object;
