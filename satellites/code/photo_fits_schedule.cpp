@@ -14,7 +14,7 @@ struct Satellite {
 };*/
 
 
-void compute_satellite_coordinates(pair<ll,ll> &coor, Satellite &satellite, ll time)	{
+void compute_satellite_coordinates(pair<ll,ll> &coor, const Satellite &satellite, ll time)	{
 	ll lat_max =  90ll*3600ll;
 	ll lon_max = 180ll*3600ll;
 	
@@ -28,12 +28,17 @@ void compute_satellite_coordinates(pair<ll,ll> &coor, Satellite &satellite, ll t
 	coor.second = lon_max;
 }
 
-void compute_satellite_angles(pair<ll,ll> &angles, pair<ll,ll> &coor, Object &object)	{
+void compute_satellite_angles(pair<ll,ll> &angles, const pair<ll,ll> &coor, const Object &object)	{
 	angles.first  =  coor.first - object.lat;
 	angles.second = coor.second - object.lon;
 }
 
-bool check_angles(pair<ll,ll> &angle_change, ll time, ll angular_speed)	{
+void compute_satellite_angle_change(pair<ll,ll> &angle_change, const pair<ll,ll> &next_angle, const pair<ll,ll> &cur_angle){
+	angle_change.first  = next_angle.first  - cur_angle.first;
+	angle_change.second = next_angle.second - cur_angle.second;
+}
+
+bool check_angles(const pair<ll,ll> &angle_change, ll time, ll angular_speed)	{
 	return (abs(angle_change.first) <= time*angular_speed) && (abs(angle_change.second) <= time*angular_speed);
 }
 
@@ -58,20 +63,24 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 	if (ub != satellite.photos.begin())	
 	{
 		ub--;
+		
 		compute_satellite_coordinates(prev_coor,satellite,ub->first);
-		compute_satellite_angles(prev_angle,prev_coor,object);	
-		angle_change.first = cur_angle.first - prev_angle.first;
-		angle_change.second = cur_angle.second - prev_angle.second;
+		compute_satellite_angles(prev_angle,prev_coor,ub->second);	
+		
+		compute_satellite_angle_change(angle_change,cur_angle,prev_angle);
+		
 		fits = fits & check_angles(angle_change,time - ub->first,satellite.w);
+		
 		ub++;
 	}
 	
 	if (ub != satellite.photos.end())
 	{
 		compute_satellite_coordinates(next_coor,satellite,ub->first);
-		compute_satellite_angles(next_angle,next_coor,object);
-		angle_change.first = cur_angle.first - prev_angle.first;
-		angle_change.second = cur_angle.second - prev_angle.second;
+		compute_satellite_angles(next_angle,next_coor,ub->second);
+		
+		compute_satellite_angle_change(angle_change,next_angle,cur_angle);
+		
 		fits = fits & check_angles(angle_change,ub->first - time,satellite.w);
 	}
 	return fits;
