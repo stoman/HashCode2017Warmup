@@ -31,16 +31,27 @@ int gradeFile(ifstream& in, ifstream& ans) {
     ans >> lat >> lon >> t >> s;
 
     // TODO: check if photo can be made by satelite s
-    for (int c : input.objects[make_pair(lat, lon)].collections) {
-      Collection& coll = input.collections[c];
+    if (!(std::find(done.begin(), done.end(), make_pair(lat, lon)) == done.end())) {
+      for (int c : input.objects[make_pair(lat, lon)].collections) {
+        Collection& coll = input.collections[c];
 
-      // TODO: check if t is in one of the intervals of coll
-      if (!(std::find(done.begin(), done.end(), make_pair(lat, lon)) == done.end())) {
-        amount[c] += 1;
-        if (amount[c] == coll.objects.size()) {
-          score += coll.v;
+        // TODO: check if t is in one of the intervals of coll
+        bool inside = false;
+        for (pair<ll,ll>& interval : coll.time_ranges) {
+          if (t > interval.first && t < interval.second) {
+            inside = true;
+            break;
+          }
+        }
+
+        if (inside) {
+          amount[c] += 1;
+          if (amount[c] == coll.objects.size()) {
+            score += coll.v;
+          }
         }
       }
+      done.insert(make_par(lat, lon));
     }
   }
   return score;
