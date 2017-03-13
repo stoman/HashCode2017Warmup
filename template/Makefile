@@ -1,6 +1,6 @@
 CXX=g++ -std=c++11
 MAINFILE=code/main
-STRATEGIES=mock
+STRATEGIES=naive
 ALLOUTPUTS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.ans, $(wildcard data/*.in)))
 ALLVISUALIZATIONS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.png, $(filter-out data/big.in, $(wildcard data/*.in))))
 
@@ -30,14 +30,14 @@ $(MAINFILE): $(wildcard code/*.cpp)
 visualize/%.class: $(@:%.class=%.java)
 	javac -cp visualize $(@:%.class=%.java)
 
-data/mock.%.ans: $(MAINFILE)
-	$(MAINFILE) mock < $(@:data/mock.%.ans=data/%.in) > $@
+data/naive.%.ans: $(MAINFILE)
+	$(MAINFILE) naive < $(@:data/naive.%.ans=data/%.in) > $@
 
 data/%.in.dat: visualize/InputToGnu.class
 	java -cp visualize InputToGnu < $(@:%.dat=%) > $@
 
-data/mock.%.ans.dat: data/mock.%.ans visualize/AnswerToGnu.class
-	java -cp visualize AnswerToGnu $(@:data/mock.%.ans.dat=data/%.in) $(@:%.dat=%) > $@
+data/naive.%.ans.dat: data/naive.%.ans visualize/AnswerToGnu.class
+	java -cp visualize AnswerToGnu $(@:data/naive.%.ans.dat=data/%.in) $(@:%.dat=%) > $@
 
-data/mock.%.png: data/mock.%.ans.dat data/%.in.dat
-	gnuplot -e "datafile='$(@:data/mock.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
+data/naive.%.png: data/naive.%.ans.dat data/%.in.dat
+	gnuplot -e "datafile='$(@:data/naive.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg

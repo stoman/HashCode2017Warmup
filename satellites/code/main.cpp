@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 		
 	//solve problem
 	cerr << "using algorithm " << algorithm << endl;
-	if(algorithm == "mock") {
+	if(algorithm == "naive") {
 		schedule_photos(input);
 	}
 	else {
