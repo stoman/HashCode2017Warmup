@@ -1,4 +1,25 @@
 Sample:
 
+constellation
+    259200 turns
+    25 satelites
+    1024 collections
+
+forever alone
+    604800 turns
+    1 satelite
+    1024 collections
+
+overlap
+    604800 turns
+    32 satelites
+    2048 collections
+
+weekend
+    172800 turns
+    40 satelites
+    1400 collections
+    
+
 
 
