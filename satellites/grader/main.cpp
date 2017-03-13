@@ -18,7 +18,7 @@ int gradeFile(ifstream& in, ifstream& ans) {
   readInput(input, in);
   
   //read answer
-  ll score;
+  ll score = 0;
 
   set<pair<ll, ll>> done;
   // collid, amount
