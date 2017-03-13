@@ -31,7 +31,7 @@ int gradeFile(ifstream& in, ifstream& ans) {
     ans >> lat >> lon >> t >> s;
 
     // TODO: check if photo can be made by satelite s
-    for (int c : input.objects[make_pair(lat, lon)].collection_ids) {
+    for (int c : input.objects[make_pair(lat, lon)].collections) {
       Collection& coll = input.collections[c];
 
       // TODO: check if t is in one of the intervals of coll
