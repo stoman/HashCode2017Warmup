@@ -17,7 +17,7 @@ using namespace std;
 struct Object {
 	ll lon, lat;
 	bool done;
-	int collection_id;
+	vector<int> collections;
 };
 
 struct Collection {
