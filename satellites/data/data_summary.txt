@@ -5,21 +5,28 @@ constellation
     25 satelites
     1024 collections
 
+    400 satelite speed
+
 forever alone
     604800 turns
     1 satelite
     1024 collections
+
+    1 pic/location
+    117 sat speed
 
 overlap
     604800 turns
     32 satelites
     2048 collections
 
+    -469 to 469 speed (betrag >= 1117)
+
 weekend
     172800 turns
     40 satelites
     1400 collections
     
-
+    -469 to 469 speed (betrag >= 117)
 
 
