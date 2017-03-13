@@ -29,5 +29,15 @@ int main(int argc, char* argv[]) {
 	}
 	
 	//print output
-	//TODO print output
+	int n = 0;
+	for(Satellite& satellite: input.satellites) {
+		n += satellite.photos.size();
+	}
+	cout << n << endl;
+	for(int i = 0; i < input.satellites.size(); i++) {
+		for(auto& photo: input.satellites[i].photos) {
+			cout << photo.second.lat << ' ' << photo.second.lon << ' ' << photo.first << ' ' << i << endl;
+		}
+	}
+
 };

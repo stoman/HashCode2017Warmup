@@ -68,6 +68,7 @@ void readInput(Input& input, istream& in) {
 				input.objects[make_pair(lat, lon)] = *(new Object(lat, lon));
 			}
 			input.objects[make_pair(lat, lon)].collections.push_back(i);
+			input.collections[i].objects.push_back(input.objects[make_pair(lat, lon)]);
 		}
 		for(int j = 0; j < l; j++) {
 			ll ts, te;
