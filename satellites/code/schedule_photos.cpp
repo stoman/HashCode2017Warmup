@@ -12,9 +12,9 @@ bool try_photo(Input& input, Object& object, Collection& collection) {
 	//loop over satellites
 	for(Satellite& satellite: input.satellites) {
 		vector<pair<ll, ll>> intervals = possible_intervals(input, satellite, object);
-		for(pair<ll, ll> interval: intervals) {
-			//todo add loop for time here
-			ll time = interval.first;
+		//for(pair<ll, ll> interval: intervals) {
+		for(ll time = 0; time < input.t; time++) {	
+			//ll time = interval.first;
 			bool ok = false;
 			for(pair<ll, ll>& time_range: collection.time_ranges) {
 				if(time_range.first <= time && time <= time_range.second) {
