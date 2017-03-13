@@ -49,9 +49,7 @@ bool check_angle(const pair<ll,ll> &angle, const ll max_angle)	{
 //can the satellite take a photo of the given object at the given time with
 //regard to the photos the satellite already takes
 bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll time) {
-	if (satellite.photos.empty())
-		return true;
-	
+
 	pair <ll, ll> cur_coor, prev_coor, next_coor;
 	pair <ll, ll> cur_angle, prev_angle, next_angle;
 	pair <ll, ll> angle_change;
@@ -63,6 +61,9 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 	ub = satellite.photos.upper_bound(time);
 	
 	bool fits = check_angle(cur_angle,satellite.d);
+
+	if (satellite.photos.empty())
+		return fits;
 	
 	if (ub != satellite.photos.begin())	
 	{
