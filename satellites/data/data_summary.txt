@@ -20,7 +20,7 @@ overlap
     32 satelites
     2048 collections
 
-    -469 to 469 speed (betrag >= 1117)
+    -469 to 469 speed (betrag >= 117)
 
 weekend
     172800 turns
