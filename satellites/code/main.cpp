@@ -39,5 +39,4 @@ int main(int argc, char* argv[]) {
 			cout << photo.second.lat << ' ' << photo.second.lon << ' ' << photo.first << ' ' << i << endl;
 		}
 	}
-
 };

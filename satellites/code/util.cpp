@@ -24,13 +24,14 @@ struct Object {
 };
 
 struct Collection {
-	ll v, l, r;
+	ll v, r;
+	int l;
 	int id;
 	bool done;
 	vector<Object> objects;
 	vector<pair<ll, ll>> time_ranges;
 
-	Collection(ll v, ll l, ll r, int id): v(v), l(l), r(r), id(id), done(false) {};
+	Collection(ll v, int l, ll r, int id): v(v), l(l), r(r), id(id), done(false) {};
 };
 
 struct Satellite {
@@ -58,7 +59,8 @@ void readInput(Input& input, istream& in) {
 	}
 	in >> input.c;
 	for(int i = 0; i < input.c; i++) {
-		ll v, l, r;
+		int l;
+		ll v, r;
 		in >> v >> l >> r;
 		input.collections.push_back(*(new Collection(v, l, r, i)));
 		for(int j = 0; j < l; j++) {
@@ -70,7 +72,7 @@ void readInput(Input& input, istream& in) {
 			input.objects[make_pair(lat, lon)].collections.push_back(i);
 			input.collections[i].objects.push_back(input.objects[make_pair(lat, lon)]);
 		}
-		for(int j = 0; j < l; j++) {
+		for(int j = 0; j < r; j++) {
 			ll ts, te;
 			in >> ts >> te;
 			input.collections[i].time_ranges.push_back(make_pair(ts, te));
