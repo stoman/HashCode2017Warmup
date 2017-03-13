@@ -45,11 +45,12 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 	
 	pair <ll, ll> cur_coor, prev_coor, next_coor;
 	pair <ll, ll> cur_angle, prev_angle, next_angle;
+	pair <ll, ll> angle_change;
 	
 	compute_satellite_coordinates(cur_coor,satellite,time);
 	compute_satellite_angles(cur_angle,cur_coor,object);
 	
-	map<ll,Object>::iterator lb;
+	map<ll,Object>::iterator ub;
 	ub = satellite.photos.upper_bound(time);
 	
 	bool fits = true;
@@ -59,7 +60,9 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 		ub--;
 		compute_satellite_coordinates(prev_coor,satellite,ub->first);
 		compute_satellite_angles(prev_angle,prev_coor,object);	
-		fits = fits & check_angles(cur_angle-prev_angle,time - ub->first,satellite.w);
+		angle_change.first = cur_angle.first - prev_angle.first;
+		angle_change.second = cur_angle.second - prev_angle.second;
+		fits = fits & check_angles(angle_change,time - ub->first,satellite.w);
 		ub++;
 	}
 	
@@ -67,7 +70,9 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 	{
 		compute_satellite_coordinates(next_coor,satellite,ub->first);
 		compute_satellite_angles(next_angle,next_coor,object);
-		fits = fits & check_angles(next_angle-cur_angle,ub->first - time,satellite.w);
+		angle_change.first = cur_angle.first - prev_angle.first;
+		angle_change.second = cur_angle.second - prev_angle.second;
+		fits = fits & check_angles(angle_change,ub->first - time,satellite.w);
 	}
 	return fits;
 }
