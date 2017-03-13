@@ -51,7 +51,7 @@ int gradeFile(ifstream& in, ifstream& ans) {
           }
         }
       }
-      done.insert(make_par(lat, lon));
+      done.insert(make_pair(lat, lon));
     }
   }
   return score;
