@@ -29,6 +29,7 @@ bool try_photo(Input& input, Object& object, Collection& collection) {
 
 //start of the algorithm, call all subroutines
 void schedule_photos(Input& input) {
+    cerr << "Starting scheduling"
 	vector<Collection> sorted_collections(input.c);
 	for(int i = 0; i < input.c; i++) {
 		sorted_collections[i] = input.collections[i];
@@ -39,6 +40,7 @@ void schedule_photos(Input& input) {
 
 	//try them all
 	for(Collection& collection: sorted_collections) {
+        cerr << "Considering collection " << collection.id << "/" << input.c;
 		bool ok = true;
 		for(Object& object: collection.objects) {
 			ok &= try_photo(input, object, collection);
