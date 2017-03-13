@@ -1,5 +1,6 @@
-#ifndef utils
-#define utils
+#pragma once
+
+typedef long long ll;
 
 #include <algorithm>
 #include <iostream>
@@ -14,26 +15,26 @@ using namespace std;
 
 //util classes
 struct Object {
-	long long lon, lat;
+	ll lon, lat;
 	bool done;
 	int collection_id;
 };
 
 struct Collection {
-	long long v, l, r;
+	ll v, l, r;
 	int id;
 	bool done;
 	vector<Object> objects;
-	vector<pair<long long, long long>> time_ranges;
+	vector<pair<ll, ll>> time_ranges;
 };
 
 struct Satellite {
-	long long lon, lat, v, w, d;
-	map<long long, Object> photos;
+	ll lon, lat, v, w, d;
+	map<ll, Object> photos;
 };
 
 struct Input {
-	long long t;
+	ll t;
 	int s, c;
 	vector<Satellite> satellites;
 	vector<Collection> collections;
@@ -43,5 +44,3 @@ struct Input {
 void readInput(Input& input, istream& in) {
 	//TODO read input
 }
-
-#endif
