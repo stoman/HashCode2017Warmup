@@ -18,12 +18,32 @@ int gradeFile(ifstream& in, ifstream& ans) {
   readInput(input, in);
   
   //read answer
-  //TODO read answer
+  ll score;
 
-  //compute score
-  //TODO compute score
+  set<pair<ll, ll>> done;
+  // collid, amount
+  map<int, int> amount;
 
-  return -1;
+  ll pics;
+  ans >> pics;
+  for (int i = 0; i < pics; i++) {
+    ll lat, lon, t, s;
+    ans >> lat >> lon >> t >> s;
+
+    // TODO: check if photo can be made by satelite s
+    for (int c : input.objects[make_pair(lat, lon)].collection_ids) {
+      Collection& coll = input.collections[c];
+
+      // TODO: check if t is in one of the intervals of coll
+      if (!(std::find(done.begin(), done.end(), make_pair(lat, lon)) == done.end())) {
+        amount[c] += 1;
+        if (amount[c] == coll.objects.size()) {
+          score += coll.v;
+        }
+      }
+    }
+  }
+  return score;
 }
 
 //iterate over all test cases
