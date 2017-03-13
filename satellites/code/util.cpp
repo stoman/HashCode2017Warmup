@@ -32,6 +32,7 @@ struct Collection {
 	vector<pair<ll, ll>> time_ranges;
 
 	Collection(ll v, int l, ll r, int id): v(v), l(l), r(r), id(id), done(false) {};
+	Collection() {};
 };
 
 struct Satellite {
