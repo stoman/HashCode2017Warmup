@@ -13,8 +13,8 @@ void compute_satellite_coordinates(pair<ll,ll> &coor, const Satellite &satellite
 	lat -= lat_max;
 	lon -= lon_max;
 	
-	coor.first = lat_max;
-	coor.second = lon_max;
+	coor.first = lat;
+	coor.second = lon;
 }
 
 void compute_satellite_angles(pair<ll,ll> &angles, const pair<ll,ll> &coor, const Object &object)	{
@@ -45,6 +45,8 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 	
 	compute_satellite_coordinates(cur_coor,satellite,time);
 	compute_satellite_angles(cur_angle,cur_coor,object);
+	
+	//cerr << time << ' ' << cur_coor.first << ' ' << cur_coor.second << ' ' << object.lat << ' ' << object.lon << endl;
 	
 	bool fits = check_angle(cur_angle,satellite.d);
 
