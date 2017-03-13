@@ -12,19 +12,15 @@ bool try_photo(Input& input, Object& object, Collection& collection) {
 	//loop over satellites
 	for(Satellite& satellite: input.satellites) {
 		vector<pair<ll, ll>> intervals = possible_intervals(input, satellite, object);
-		//for(pair<ll, ll> interval: intervals) {
-		for(ll time = 0; time < input.t; time++) {	
-			//ll time = interval.first;
-			bool ok = false;
-			for(pair<ll, ll>& time_range: collection.time_ranges) {
-				if(time_range.first <= time && time <= time_range.second) {
-					ok = true;
+		for(pair<ll, ll>& time_range: collection.time_ranges) {
+			for(pair<ll, ll> interval: intervals) {
+				for(ll time = max(interval.first, time_range.first); time < min(interval.second, time_range.second); time++) {	
+					if(photo_fits_schedule(input, satellite, object, time)) {
+						input.objects[make_pair(object.lat, object.lon)].done = true;
+						satellite.photos[time] = object;
+						return true;
+					}
 				}
-			}
-			if(ok && photo_fits_schedule(input, satellite, object, time)) {
-				input.objects[make_pair(object.lat, object.lon)].done = true;
-				satellite.photos[time] = object;
-				return true;
 			}
 		}
 	}
