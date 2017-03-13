@@ -1,61 +1,8 @@
 //call this script like this to have live scores:
 //while true; do git pull; make -j grades.html; sleep 15; done;
-#include <dirent.h>
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <set>
-#include <string>
 
-#include "../code/util.cpp"
+#include "grader.cpp"
 
-using namespace std;
-
-//grade one single test case
-int gradeFile(ifstream& in, ifstream& ans) {
-  //read input
-  Input input;
-  readInput(input, in);
-  
-  //read answer
-  ll score = 0;
-
-  set<pair<ll, ll>> done;
-  // collid, amount
-  map<int, int> amount;
-
-  ll pics;
-  ans >> pics;
-  for (int i = 0; i < pics; i++) {
-    ll lat, lon, t, s;
-    ans >> lat >> lon >> t >> s;
-
-    // TODO: check if photo can be made by satelite s
-    if (!(std::find(done.begin(), done.end(), make_pair(lat, lon)) == done.end())) {
-      for (int c : input.objects[make_pair(lat, lon)].collections) {
-        Collection& coll = input.collections[c];
-
-        // TODO: check if t is in one of the intervals of coll
-        bool inside = false;
-        for (pair<ll,ll>& interval : coll.time_ranges) {
-          if (t > interval.first && t < interval.second) {
-            inside = true;
-            break;
-          }
-        }
-
-        if (inside) {
-          amount[c] += 1;
-          if (amount[c] == coll.objects.size()) {
-            score += coll.v;
-          }
-        }
-      }
-      done.insert(make_pair(lat, lon));
-    }
-  }
-  return score;
-}
 
 //iterate over all test cases
 int main() {
@@ -75,7 +22,7 @@ int main() {
   while(0 != (file = readdir(datadir))) {
     string ansname = file->d_name;
     if(ansname.size() > 4 && !ansname.compare(ansname.size() - 4, 4, ".ans")) {
-      cerr << "solving file " << ansname << endl;
+      cerr << "grading file " << ansname << endl;
       string testcase = ansname.substr(ansname.find_first_of(".") + 1, ansname.find_last_of(".") - ansname.find_first_of(".") - 1);
       testcases.insert(testcase);
       string algorithm = ansname.substr(0, ansname.find_first_of("."));
