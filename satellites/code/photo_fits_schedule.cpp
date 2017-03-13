@@ -1,17 +1,6 @@
 #pragma once
 #include "util.cpp"
 
-//util classes
-/*struct Object {
-	long long lon, lat;
-	bool done;
-	int collection_id;
-};
-
-struct Satellite {
-	long long lon, lat, v, w, d;
-	map<long long, Object> photos;
-};*/
 
 
 void compute_satellite_coordinates(pair<ll,ll> &coor, const Satellite &satellite, ll time)	{
@@ -57,14 +46,14 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 	compute_satellite_coordinates(cur_coor,satellite,time);
 	compute_satellite_angles(cur_angle,cur_coor,object);
 	
-	map<ll,Object>::iterator ub;
-	ub = satellite.photos.upper_bound(time);
-	
 	bool fits = check_angle(cur_angle,satellite.d);
 
 	if (satellite.photos.empty())
 		return fits;
 	
+	map<ll,Object>::iterator ub;
+	ub = satellite.photos.upper_bound(time);
+
 	if (ub != satellite.photos.begin())	
 	{
 		ub--;
