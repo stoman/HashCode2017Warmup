@@ -1,6 +1,8 @@
 #include "util.cpp"
 #include "schedule_photos.cpp"
 
+using namespace std;
+
 //input/output code
 int main(int argc, char* argv[]) {
 	ios::sync_with_stdio(false);

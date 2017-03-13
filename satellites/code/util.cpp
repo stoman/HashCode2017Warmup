@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <limits>
+#include <map>
 #include <string>
 #include <time.h>
 #include <utility>
