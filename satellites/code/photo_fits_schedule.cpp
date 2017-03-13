@@ -38,8 +38,12 @@ void compute_satellite_angle_change(pair<ll,ll> &angle_change, const pair<ll,ll>
 	angle_change.second = next_angle.second - cur_angle.second;
 }
 
-bool check_angles(const pair<ll,ll> &angle_change, ll time, ll angular_speed)	{
+bool check_angular_speed(const pair<ll,ll> &angle_change, ll time, ll angular_speed)	{
 	return (abs(angle_change.first) <= time*angular_speed) && (abs(angle_change.second) <= time*angular_speed);
+}
+
+bool check_angle(const pair<ll,ll> &angle, const ll max_angle)	{
+	return (abs(angle.first) <= max_angle) && (abs(angle.second) <= max_angle);
 }
 
 //can the satellite take a photo of the given object at the given time with
@@ -58,7 +62,7 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 	map<ll,Object>::iterator ub;
 	ub = satellite.photos.upper_bound(time);
 	
-	bool fits = true;
+	bool fits = check_angle(cur_angle,satellite.d);
 	
 	if (ub != satellite.photos.begin())	
 	{
@@ -69,7 +73,7 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 		
 		compute_satellite_angle_change(angle_change,cur_angle,prev_angle);
 		
-		fits = fits & check_angles(angle_change,time - ub->first,satellite.w);
+		fits = fits & check_angular_speed(angle_change,time - ub->first,satellite.w);
 		
 		ub++;
 	}
@@ -81,7 +85,7 @@ bool photo_fits_schedule(Input& input, Satellite& satellite, Object& object, ll 
 		
 		compute_satellite_angle_change(angle_change,next_angle,cur_angle);
 		
-		fits = fits & check_angles(angle_change,ub->first - time,satellite.w);
+		fits = fits & check_angular_speed(angle_change,ub->first - time,satellite.w);
 	}
 	return fits;
 }
