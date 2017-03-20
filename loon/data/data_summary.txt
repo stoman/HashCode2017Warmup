@@ -1,0 +1,10 @@
+data
+
+    70 R rows
+    300 C columns
+    8 A altitudes
+    1050 L target cells
+    7 V coverage
+    53 B balloons
+    400 T turns
+
