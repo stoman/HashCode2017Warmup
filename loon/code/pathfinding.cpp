@@ -16,7 +16,10 @@ bool operator < (const Coord &a, const Coord &b)	{
 		return a.h < b.h;
 }
 
-double compute_distance(double r1, double c1, double r2, double c2, double c)	{
+double compute_distance(double r1, double c1, double r2, double c2, double r, double c)	{	
+	if (r1 < 0 || r1 >= r)
+		return 1e9;
+
 	double dr = abs(r1-r2);
 	double dc = min(abs(c1-c2),c-abs(c1-c2));
 	return sqrt(dr*dr+dc*dc);
@@ -91,7 +94,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 	//TODO fill me
 	//run bfs
 	while (input.balloons[balloon].h.size() <= input.t && 
-		compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),r,c,input.c) > delta)
+		compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),r,c,input.r,input.c) > delta)
 	{
 		vector<Coord> path; path.clear();
 		vector<int> prev; prev.clear();
@@ -109,11 +112,11 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 
 		// choose the closest end point
 		double mind = 1e9, curd;
-		int idx_min = 0;
-		for (int i = 1; i < path.size(); i++)
+		int idx_min = 1;
+		for (int i = 2; i < path.size(); i++)
 		{
-			curd = compute_distance(path[i].r,path[i].c,r,c,input.c);
-			if (curd < mind || (idx_min == 0 && input.balloons[balloon].h.size() == 1))
+			curd = compute_distance(path[i].r,path[i].c,r,c,input.r,input.c);
+			if (curd < mind || idx_min == 0)
 			{
 				idx_min = i;
 				mind = curd;
