@@ -1,7 +1,7 @@
 #pragma once
 #include "util.cpp"
 #include <set>
-
+#include <cmath>
 
 struct Coord {
 	int r, c, h;
@@ -81,59 +81,65 @@ void bfs(Input &input, vector<Coord>& path, vector<int>& prev)	{
 	}
 }
 
-void pathfinding(Input& input, int balloon, double r, double c, int delta) {
+void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 	//TODO fill me
-	vector<Coord> path;
-	vector<int> prev;
-	
-	// add starting cell
-	Coord start;
-	start.r = input.balloons[balloon].r.back();
-	start.c = input.balloons[balloon].c.back();
-	start.h = input.balloons[balloon].h.back();
-	
-	path.push_back(start);
-	prev.push_back(-1);
-	
 	//run bfs
-	bfs(input,path,prev);
-	
-	// choose the closest end point
-	double mind = 1e9, curd;
-	int idx_min = 0;
-	for (int i = 1; i < path.size(); i++)
+	double dist_to_dest = 1e9;
+	while (input.balloons[balloon].h.size() <= input.t && sqrt(dist_to_dest) > delta)
 	{
-		curd = ((double)path[i].r-r)*((double)path[i].r-r) + ((double)path[i].c-c)*((double)path[i].c-c);
-		if (curd < mind || (idx_min == 0 && input.balloons[balloon].h.size() == 1))
-		{
-			idx_min = i;
-			mind = curd;
-		}
-	}
+		vector<Coord> path;
+		vector<int> prev;
+		// add starting cell
+		Coord start;
+		
+		start.r = input.balloons[balloon].r.back();
+		start.c = input.balloons[balloon].c.back();
+		start.h = input.balloons[balloon].h.back();
+	
+		path.push_back(start);
+		prev.push_back(-1);
+		
+		bfs(input,path,prev);
 
-	//cerr << path.size() << endl;
-	vector<Coord> reversed_path;
-	for (int i = idx_min; i != 0; i = prev[i])
-		reversed_path.push_back(path[i]);
+		// choose the closest end point
+		double mind = 1e9, curd;
+		int idx_min = 0;
+		for (int i = 1; i < path.size(); i++)
+		{
+			curd = ((double)path[i].r-r)*((double)path[i].r-r) + ((double)path[i].c-c)*((double)path[i].c-c);
+			if (curd < mind || (idx_min == 0 && input.balloons[balloon].h.size() == 1))
+			{
+				idx_min = i;
+				mind = curd;
+			}
+		}
+
+		//cerr << path.size() << endl;
+		vector<Coord> reversed_path;
+		for (int i = idx_min; i != 0; i = prev[i])
+			reversed_path.push_back(path[i]);
+
+		/*
+		cerr << "flying from: " << start.r << ' ' << start.c << ' ' << start.h << endl;
+		cerr << "to target: " << r << ' ' << c << endl;
+		cerr << "path\n";
+		for (int i = reversed_path.size()-1; i >= 0; i--)
+			cerr << reversed_path[i].r << ' ' << reversed_path[i].c << ' ' << reversed_path[i].h << endl; 
+		cerr << "end of path\n";//*/
+
+		for (int i = reversed_path.size()-1; i >= 0; i--)
+		{
+			input.balloons[balloon].h.push_back(reversed_path[i].h);
+			input.balloons[balloon].r.push_back(reversed_path[i].r);
+			input.balloons[balloon].c.push_back(reversed_path[i].c);
 	
-	/*
-	cerr << "flying from: " << start.r << ' ' << start.c << ' ' << start.h << endl;
-	cerr << "to target: " << r << ' ' << c << endl;
-	cerr << "path\n";
-	for (int i = reversed_path.size()-1; i >= 0; i--)
-		cerr << reversed_path[i].r << ' ' << reversed_path[i].c << ' ' << reversed_path[i].h << endl; 
-	cerr << "end of path\n";//*/
-	
-	for (int i = reversed_path.size()-1; i >= 0; i--)
-	{
-		input.balloons[balloon].h.push_back(reversed_path[i].h);
-		input.balloons[balloon].r.push_back(reversed_path[i].r);
-		input.balloons[balloon].c.push_back(reversed_path[i].c);
+			if (input.balloons[balloon].h.size() > input.t)
+				break;
+		}
 		
-		//if (input.balloons[balloon].h.back() > 1000)
-		//	cerr << "ERROR!!!\n";
+		double endr = input.balloons[balloon].r.back();
+		double endc = input.balloons[balloon].c.back();
 		
-		if (input.balloons[balloon].h.size() > input.t)
-			break;
+		dist_to_dest = (endr-r)*(endr-r) + (endc-c)*(endc-c);
 	}
 }
