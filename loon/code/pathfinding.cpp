@@ -16,6 +16,12 @@ bool operator < (const Coord &a, const Coord &b)	{
 		return a.h < b.h;
 }
 
+double compute_distance(double r1, double c1, double r2, double c2, double c)	{
+	double dr = abs(r1-r2);
+	double dc = min(abs(c1-c2),c-abs(c1-c2));
+	return sqrt(dr*dr+dc*dc);
+}
+
 void check_cell(Input &input, Coord cur, vector<Coord>& path, vector<int>& prev, set<Coord>& visited, vector<int>& dist, int idx)	{
 
 	//cerr << "adding balloon: " << cur.r << ' ' << cur.c << ' ' << cur.h << endl;	
@@ -84,11 +90,11 @@ void bfs(Input &input, vector<Coord>& path, vector<int>& prev)	{
 void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 	//TODO fill me
 	//run bfs
-	double dist_to_dest = 1e9;
-	while (input.balloons[balloon].h.size() <= input.t && sqrt(dist_to_dest) > delta)
+	while (input.balloons[balloon].h.size() <= input.t && 
+		compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),r,c,input.c) > delta)
 	{
-		vector<Coord> path;
-		vector<int> prev;
+		vector<Coord> path; path.clear();
+		vector<int> prev; prev.clear();
 		// add starting cell
 		Coord start;
 		
@@ -106,7 +112,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 		int idx_min = 0;
 		for (int i = 1; i < path.size(); i++)
 		{
-			curd = ((double)path[i].r-r)*((double)path[i].r-r) + ((double)path[i].c-c)*((double)path[i].c-c);
+			curd = compute_distance(path[i].r,path[i].c,r,c,input.c);
 			if (curd < mind || (idx_min == 0 && input.balloons[balloon].h.size() == 1))
 			{
 				idx_min = i;
@@ -137,9 +143,8 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 				break;
 		}
 		
-		double endr = input.balloons[balloon].r.back();
-		double endc = input.balloons[balloon].c.back();
-		
-		dist_to_dest = (endr-r)*(endr-r) + (endc-c)*(endc-c);
+		//double endr = input.balloons[balloon].r.back();
+		//double endc = input.balloons[balloon].c.back();
+		//dist_to_dest = compute_distance(endr,endc,r,c);
 	}
 }
