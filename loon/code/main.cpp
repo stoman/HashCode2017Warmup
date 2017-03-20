@@ -31,12 +31,14 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	else if(algorithm == "emi") {
+		double delta = input.v;
+
 		cluster(input);
 		for (int b = 0; b < input.b; ++b)
 		{
 			double r = input.clusters[b].center_r;
 			double c = input.clusters[b].center_c;
-			pathfinding(input, b, r, c, -1);
+			pathfinding(input, b, r, c, delta);
 		}
 		cycling_all(input);
 	}
