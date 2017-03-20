@@ -100,7 +100,7 @@ void pathfinding(Input& input, int balloon, double r, double c, int delta) {
 	
 	// choose the closest end point
 	double mind = 1e9, curd;
-	int idx_min;
+	int idx_min = 1;
 	for (int i = 0; i < path.size(); i++)
 	{
 		curd = ((double)path[i].r-r)*((double)path[i].r-r) + ((double)path[i].c-c)*((double)path[i].c-c);
