@@ -1,6 +1,7 @@
 #include "util.cpp"
 #include "cluster.cpp"
 #include "pathfinding.cpp"
+#include "cycling.cpp"
 
 //input/output code
 int main(int argc, char* argv[]) {
@@ -21,9 +22,16 @@ int main(int argc, char* argv[]) {
 	cerr << "using algorithm " << algorithm << endl;
 	if(algorithm == "naive") {
 		cluster(input);
-		
 
-		
+		//kirill
+
+	}
+	else if(algorithm == "emi") {
+		cluster(input);
+
+		// kirill
+
+		cycling(input);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;

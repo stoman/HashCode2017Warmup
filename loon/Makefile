@@ -1,6 +1,6 @@
 CXX=g++ -std=c++11
 MAINFILE=code/main
-STRATEGIES=naive
+STRATEGIES=naive emi
 ALLOUTPUTS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.ans, $(wildcard data/*.in)))
 ALLVISUALIZATIONS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.png, $(filter-out data/big.in, $(wildcard data/*.in))))
 
@@ -26,18 +26,9 @@ grades.html: grader/main $(ALLOUTPUTS) $(wildcard data/*.ans)
 
 $(MAINFILE): $(wildcard code/*.cpp)
 	$(CXX) -o $(MAINFILE) $(MAINFILE).cpp
-	
-visualize/%.class: $(@:%.class=%.java)
-	javac -cp visualize $(@:%.class=%.java)
 
 data/naive.%.ans: $(MAINFILE)
 	$(MAINFILE) naive < $(@:data/naive.%.ans=data/%.in) > $@
 
-data/%.in.dat: visualize/InputToGnu.class
-	java -cp visualize InputToGnu < $(@:%.dat=%) > $@
-
-data/naive.%.ans.dat: data/naive.%.ans visualize/AnswerToGnu.class
-	java -cp visualize AnswerToGnu $(@:data/naive.%.ans.dat=data/%.in) $(@:%.dat=%) > $@
-
-data/naive.%.png: data/naive.%.ans.dat data/%.in.dat
-	gnuplot -e "datafile='$(@:data/naive.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot.plg
+data/emi.%.ans: $(MAINFILE)
+	$(MAINFILE) emi < $(@:data/emi.%.ans=data/%.in) > $@

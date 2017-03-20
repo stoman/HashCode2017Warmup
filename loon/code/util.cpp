@@ -10,6 +10,7 @@ typedef long long ll;
 #include <time.h>
 #include <utility>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -36,5 +37,19 @@ struct Input {
 
 //input handling
 void readInput(Input& input, istream& in) {
-	//TODO read input
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
