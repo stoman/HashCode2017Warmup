@@ -21,6 +21,18 @@ int tr_c(int r, int c, int a, Input& input) {
     return (c + input.movement_c[r][c][a] + input.c) % input.c;
 }
 
+void consider(Input& input, int r, int c, int a, int l, int rn, int cn, int an, queue<int>& q_r, queue<int>& q_c, queue<int>& q_a, queue<int>& q_l, map<long,int>& prevr, map<long,int>& prevc, map<long,int>& preva) {
+    if (inbounds(rn, cn, input)) {
+        q_r.push(rn);
+        q_c.push(cn);
+        q_a.push(an);
+        q_l.push(l - 1);
+        long i2 = id(rn, cn, an);
+        prevr[i2] = r;
+        prevc[i2] = c;
+        preva[i2] = a;
+    }
+}
 
 bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& cycle_rs, vector<int>& cycle_cs, vector<int>& cycle_as) {
 
@@ -62,6 +74,7 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& cycle
             cerr << "cycle of len " << (maxlen - l) << endl;
             // Compute cycle
 
+
             break;
         }
 
@@ -69,42 +82,25 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& cycle
             continue;
         }
 
-        // cerr << "one";
-
         // reachable:
         if (a > 1) {
             int rn = tr_r(r, c, a - 1, input);
             int cn = tr_c(r, c, a - 1, input);
             int an = a - 1;
-            if (inbounds(rn, cn, input)) {
-                q_r.push(rn);
-                q_c.push(cn);
-                q_a.push(an);
-                q_l.push(l - 1);
-            }
-
+            consider(input, r, c, a, l, rn, cn, an, q_r, q_c, q_a, q_l, prevr, prevc, preva);
         }
         if (a < input.a) {
             int rn = tr_r(r, c, a + 1, input);
             int cn = tr_c(r, c, a + 1, input);
             int an = a + 1;
-            if (inbounds(rn, cn, input)) {
-                q_r.push(rn);
-                q_c.push(cn);
-                q_a.push(an);
-                q_l.push(l - 1);
-            }
+            consider(input, r, c, a, l, rn, cn, an, q_r, q_c, q_a, q_l, prevr, prevc, preva);
         }
-        // cerr << "two";
         int rn = tr_r(r, c, a, input);
         int cn = tr_c(r, c, a, input);
-        if (inbounds(rn, cn, input)) {
-            q_r.push(rn);
-            q_c.push(cn);
-            q_a.push(a);
-            q_l.push(l - 1);
-        }
+        consider(input, r, c, a, l, rn, cn, a, q_r, q_c, q_a, q_l, prevr, prevc, preva);
     }
+
+    return false;
 }
 
 void cycling(Input& input) {
