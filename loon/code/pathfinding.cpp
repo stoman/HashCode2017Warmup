@@ -148,7 +148,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 		//dist_to_dest = compute_distance(endr,endc,r,c);
 	}
 	
-	for (int i = 0; i < input.balloons[balloon].r.size()-1; i++)
+	/*for (int i = 0; i < input.balloons[balloon].r.size()-1; i++)
 	{
 		int rc = input.balloons[balloon].r[i];
 		int rn = input.balloons[balloon].r[i+1];
@@ -162,5 +162,5 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 		else
 			cerr << rc << ' ' << cc << ' ' << rn-rc << ' ' << cn-cc << ' ' << input.balloons[balloon].cluster_id / ((double)input.clusters.size()) << endl;
 	}
-	cerr << endl;
+	cerr << endl;*/
 }
