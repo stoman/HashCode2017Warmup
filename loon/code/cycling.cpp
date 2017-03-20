@@ -107,7 +107,7 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, deque<int>& tail_r
                 cycle_rs.push_front(prec);
                 cycle_rs.push_front(prea);
 
-                if (l >= maxlen) {
+                if (l >= maxlen + 2) {
                     cerr << "obviously broken. stopping" << endl;
                     return false;
                 }
