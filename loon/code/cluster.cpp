@@ -29,11 +29,13 @@ void recompute_centers(Input& input) {
 			cluster.center_c += 1.*cell.second/cluster.cells.size();
 		}
 	}
-	reassign_cells(input);
 }
 
 void cluster(Input& input) {
 	int n = input.b;
+	int m = 50;
+
+	cerr << "start clustering" << endl;
 
 	//first bad matching
 	input.clusters.resize(n);
@@ -45,4 +47,12 @@ void cluster(Input& input) {
 		}
 		input.clusters[i%n].cells.push_back(make_pair(input.cell_r[i], input.cell_c[i]));
 	}
+
+	for(int i = 0; i < m; i++) {
+		if(i % 10 == 0) cerr << "kmeans step " << (i+1) << "/" << m << endl;
+		recompute_centers(input);
+		reassign_cells(input);
+	}
+
+	cerr << "clustering finished" << endl;
 }
