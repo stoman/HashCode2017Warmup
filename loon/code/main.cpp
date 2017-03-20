@@ -23,14 +23,22 @@ int main(int argc, char* argv[]) {
 	if(algorithm == "naive") {
 		cluster(input);
 
-		//kirill
-
+		for (int b = 0; b < input.b; ++b)
+		{
+			int r = input.clusters[b].center_r;
+			int c = input.clusters[b].center_c;
+			pathfinding(input, b, r, c, -1);
+		}
 	}
 	else if(algorithm == "emi") {
 		cluster(input);
 
-		// kirill
-
+		for (int b = 0; b < input.b; ++b)
+		{
+			int r = input.clusters[b].center_r;
+			int c = input.clusters[b].center_c;
+			pathfinding(input, b, r, c, -1);
+		}
 		cycling(input);
 	}
 	else {
