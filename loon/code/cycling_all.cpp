@@ -8,7 +8,11 @@ void cycling_all(Input& input, int cyclelength) {
 	for(Balloon& balloon: input.balloons) {
 		int t = balloon.r.size()-1;
 		deque<int> tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as;
-		bool found = cyclefrom(input, balloon.r[t], balloon.c[t], balloon.h[t], cyclelength, tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as);
+		bool found = false;
+		if(0 <= balloon.r[t] && balloon.r[t] < input.r) {
+			//call cyclefrom only if the balloon is not lost yet
+			found = cyclefrom(input, balloon.r[t], balloon.c[t], balloon.h[t], cyclelength, tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as);
+		}
 		//use cycle
 		if(found) {
 			for(int i = 0; i < tail_rs.size(); i++) {
