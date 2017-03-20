@@ -17,13 +17,15 @@ int tr_c(int r, int c, int a, Input& input) {
 
 void cycling(Input& input) {
 	//TODO fill me
-    cerr << "start emi";
+    cerr << "start emi" << endl;
 
-    int len = 10;
+    int len = 15;
 
     // graph
 
     for (auto& c : input.clusters) {
+        cerr << "Considering " << c.center_r << " " << c.center_c << endl;
+
         queue<int> q_r;
         queue<int> q_c;
         queue<int> q_a;
@@ -50,10 +52,10 @@ void cycling(Input& input) {
             if (find(seen.begin(), seen.end(), i) == seen.end()) {
                 seen.insert(i);
             } else {
-                cout << "cycle of len " << (len - l);
+                cerr << "cycle of len " << (len - l);
             }
 
-            if (len <= 0) {
+            if (l <= 0) {
                 continue;
             }
 
