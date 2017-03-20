@@ -60,6 +60,7 @@ int main(int argc, char* argv[]) {
 			int diff = 0;
 			if (input.balloons[b].h.size() >= t)
 				diff = input.balloons[b].h[t] - input.balloons[b].h[t-1];
+			
 			cout << diff << " ";
 		}
 		cout << endl;
