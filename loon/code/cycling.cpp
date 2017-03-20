@@ -8,6 +8,10 @@ long id(int r, int c, int a) {
     return r + 10000 * c + 1000000 * a;
 }
 
+long idl(int r, int c, int a, int l) {
+    return r + 10000 * c + 1000000 * a + 100000000 * l;
+}
+
 bool inbounds(int r, int c, Input& input) {
     return (0 <= r && r < input.r && 0 <= c && c < input.c);
 }
@@ -27,7 +31,7 @@ void consider(Input& input, int r, int c, int a, int l, int rn, int cn, int an, 
         q_c.push(cn);
         q_a.push(an);
         q_l.push(l - 1);
-        long i2 = id(rn, cn, an);
+        long i2 = idl(rn, cn, an, l - 1);
         prevr[i2] = r;
         prevc[i2] = c;
         preva[i2] = a;
@@ -72,8 +76,41 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& tail_
             // cerr << endl;
         } else {
             cerr << "cycle of len " << (maxlen - l) << endl;
+            cerr << "cycle to " << "(" << r << "," << c << "," << a << ")" << endl;
             // Compute cycle
-            break;
+            long lid = idl(r, c, a, l);
+            int prer = prevr[lid];
+            int prec = prevc[lid];
+            int prea = preva[lid];
+            l++;
+
+            cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
+
+            long newid = id(prer, prec, prea);
+
+            // find cycle
+            while(newid != i) {
+
+                lid = idl(r, c, a, l);
+                prer = prevr[lid];
+                prec = prevc[lid];
+                prea = preva[lid];
+                l++;
+                cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
+            }
+
+            // find tail
+            while(l != maxlen) {
+
+                lid = idl(r, c, a, l);
+                prer = prevr[lid];
+                prec = prevc[lid];
+                prea = preva[lid];
+                l++;
+                cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
+            }
+
+            return true;
         }
 
         if (l <= 0) {
@@ -110,8 +147,8 @@ void cycling(Input& input) {
     // graph
 
     for (auto& c : input.clusters) {
-        vector<int> rs, cs, as;
-        cyclefrom(input, c.center_r, c.center_c, 1, 15, rs, cs, as);
+        vector<int> tr, tc, ta, rs, cs, as;
+        cyclefrom(input, c.center_r, c.center_c, 1, 15, tr, tc, ta, rs, cs, as);
     }
     cerr << "end Emi" << endl;
 
