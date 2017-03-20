@@ -11,6 +11,13 @@
 
 using namespace std;
 
+
+int columndist(int C, int c1, int c2)
+{
+  return min(abs(c1-c2), C - abs(c1-c2));
+}
+
+
 //grade one single test case
 int gradeFile(ifstream& in, ifstream& ans) {
   //read input
@@ -18,7 +25,68 @@ int gradeFile(ifstream& in, ifstream& ans) {
   readInput(input, in);
   
   //read answer
-  //TODO read answer
+  vector<vector<int>> alti(input.t, vector<int>(input.b));
+  for (int t = 0; t < input.t; ++t)
+  {
+    for (int b = 0; b < input.b; ++b)
+    {
+      ans >> alti[t][b];
+    }
+  }
+
+  set<int> activeBalloons;
+  for (int i = 0; i < input.b; ++i)
+  {
+    activeBalloons.insert(i);
+  }
+
+  vector<int> pos_r(input.b, input.rs);
+  vector<int> pos_c(input.b, input.cs);
+  vector<int> pos_a(input.b, 0);
+
+  int score = 0;
+  for (int t = 0; t < input.t; ++t)
+  {
+    // all cells are not covered in the beginning
+    set<int> unvoc_cell_ids;
+    for (int i = 0; i < input.l; ++i)
+    {
+      unvoc_cell_ids.insert(i);
+    }
+
+    for (int b = 0; b < input.b; ++b)
+    {
+      // update position of balloons
+      int r = pos_r[b];
+      int c = pos_c[b];
+      int a = pos_a[b];
+      int r_new = r + input.movement_r[r][c][a];
+      int c_new = c + input.movement_c[r][c][a];
+      int a_new = a + alti[t][b];
+      pos_r[b] = r_new;
+      pos_c[b] = c_new;
+      pos_a[b] = a_new;
+
+      set<int> covered_cell_ids;
+      for (int c_id : unvoc_cell_ids)
+      {
+        int u = input.cells_r[c_id];
+        int v = input.cells_c[c_id];
+        int coldist = columndist(input.c, pos_c[b], v);
+        int ru = pos_r[b] - u;
+        if (ru * ru + coldist * coldist <= input.v * input.v)
+        {
+          covered_cell_ids.insert(c_id);
+        }
+      }
+      for (int cov_id : covered_cell_ids)
+      {
+        unvoc_cell_ids.remove(cov_id);
+      }
+    }
+    score += input.l - unvoc_cell_ids.size();
+  }
+
 
   //compute score
   //TODO compute score
