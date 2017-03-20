@@ -7,7 +7,7 @@ void cycling_all(Input& input, int cyclelength) {
 
 	for(Balloon& balloon: input.balloons) {
 		int t = balloon.r.size()-1;
-		vector<int> tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as;
+		deque<int> tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as;
 		bool found = cyclefrom(input, balloon.r[t], balloon.c[t], balloon.h[t], cyclelength, tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as);
 		//use cycle
 		if(found) {

@@ -80,7 +80,7 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, deque<int>& tail_r
             cerr << "cycle to " << "(" << r << "," << c << "," << a << ")" << endl;
             // Compute cycle
             long lid = idl(r, c, a, l);
-
+            
             int prer = prevr[lid];
             int prec = prevc[lid];
             int prea = preva[lid];
@@ -94,34 +94,34 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, deque<int>& tail_r
             cycle_rs.push_front(prea);
 
             // find cycle
-            while(newid != i) {
-                prer = prevr[lid];
-                prec = prevc[lid];
-                prea = preva[lid];
-                l++;
-                lid = idl(prer, prec, prea, l);
-                newid = id(prer, prec, prea);
-                cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
+            // while(newid != i) {
+            //     prer = prevr[lid];
+            //     prec = prevc[lid];
+            //     prea = preva[lid];
+            //     l++;
+            //     lid = idl(prer, prec, prea, l);
+            //     newid = id(prer, prec, prea);
+            //     cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
 
-                cycle_rs.push_front(prer);
-                cycle_rs.push_front(prec);
-                cycle_rs.push_front(prea);
-            }
+            //     cycle_rs.push_front(prer);
+            //     cycle_rs.push_front(prec);
+            //     cycle_rs.push_front(prea);
+            // }
 
-            // find tail
-            while(l != maxlen) {
-                prer = prevr[lid];
-                prec = prevc[lid];
-                prea = preva[lid];
-                l++;
-                lid = idl(prer, prec, prea, l);
-                newid = id(prer, prec, prea);
-                cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
+            // // find tail
+            // while(l != maxlen) {
+            //     prer = prevr[lid];
+            //     prec = prevc[lid];
+            //     prea = preva[lid];
+            //     l++;
+            //     lid = idl(prer, prec, prea, l);
+            //     newid = id(prer, prec, prea);
+            //     cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
 
-                cycle_rs.push_front(prer);
-                cycle_rs.push_front(prec);
-                cycle_rs.push_front(prea);
-            }
+            //     cycle_rs.push_front(prer);
+            //     cycle_rs.push_front(prec);
+            //     cycle_rs.push_front(prea);
+            // }
 
             return true;
         }
