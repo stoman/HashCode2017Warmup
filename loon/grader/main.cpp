@@ -67,6 +67,7 @@ int gradeFile(ifstream& in, ifstream& ans) {
       pos_c[b] = c_new;
       pos_a[b] = a_new;
 
+      // check if current ballooon covers new cells
       set<int> covered_cell_ids;
       for (int c_id : unvoc_cell_ids)
       {
