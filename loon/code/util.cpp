@@ -27,7 +27,7 @@ struct Balloon {
 struct Input {
 	int r, c, a, l, v, b, t, rs, cs;
 	vector<Cluster> clusters;
-	vector<Balloon> balloon;
+	vector<Balloon> balloons;
 	vector<int> cell_r;
 	vector<int> cell_c;
 	vector<vector<vector<int>>> movement_r;

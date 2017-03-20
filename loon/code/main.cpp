@@ -21,7 +21,9 @@ int main(int argc, char* argv[]) {
 	cerr << "using algorithm " << algorithm << endl;
 	if(algorithm == "naive") {
 		cluster(input);
-		//part2(input);
+		
+
+		
 	}
 	else {
 		cerr << "unknown algorithm" << endl;
