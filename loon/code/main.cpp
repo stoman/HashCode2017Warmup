@@ -23,16 +23,23 @@ int main(int argc, char* argv[]) {
 	if(algorithm == "naive") {
 		cluster(input);
 
+		cerr << "CLUSTERING DONE" << endl;
+
+
+
+
 		for (int b = 0; b < input.b; ++b)
 		{
+			cerr << b << endl;
 			int r = input.clusters[b].center_r;
 			int c = input.clusters[b].center_c;
+			cerr << "CALL KIRILL balloon " << b << endl;
 			pathfinding(input, b, r, c, -1);
+			cerr << "Kirill END" << endl;
 		}
 	}
 	else if(algorithm == "emi") {
 		cluster(input);
-
 		for (int b = 0; b < input.b; ++b)
 		{
 			int r = input.clusters[b].center_r;
@@ -47,13 +54,15 @@ int main(int argc, char* argv[]) {
 	}
 	
 	// Output
+	// first time step
 	for (int b = 0; b < input.b; ++b)
 	{
 		cout << input.balloons[b].h[0] << " ";
 	}
 	cout << endl;
 
-	for (int t = 1; t < input.t; ++t)
+	// all other steps
+	for (int t = 1; t <= input.t; ++t)
 	{
 		for (int b = 0; b < input.b; ++b)
 		{

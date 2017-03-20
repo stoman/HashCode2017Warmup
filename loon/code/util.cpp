@@ -60,13 +60,13 @@ void readInput(Input& input, istream& in) {
 
 		for (int j = 0; j < input.c; ++j)
 		{
-			input.movement_r[i][j].resize(input.a);
-			input.movement_c[i][j].resize(input.a);
+			input.movement_r[i][j].resize(input.a+1);
+			input.movement_c[i][j].resize(input.a+1);
 		}
 	}
 
 
-	for (int a = 0; a < input.a; ++a)
+	for (int a = 1; a <= input.a; ++a)
 	{
 		for (int r = 0; r < input.r; ++r)
 		{
@@ -78,6 +78,15 @@ void readInput(Input& input, istream& in) {
 				input.movement_c[r][c][a] = dc;
 			}
 		}
+	}
+
+	// set start coordinates as first coordinate of every balloon
+	input.balloons.resize(input.b);
+	for (int b = 0; b < input.b; ++b)
+	{
+		input.balloons[b].r.push_back(input.rs);
+		input.balloons[b].c.push_back(input.cs);
+		input.balloons[b].h.push_back(0);
 	}
 }
 
