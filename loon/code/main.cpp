@@ -2,6 +2,7 @@
 #include "cluster.cpp"
 #include "pathfinding.cpp"
 #include "cycling.cpp"
+#include "cycling_all.cpp"
 
 //input/output code
 int main(int argc, char* argv[]) {
@@ -37,7 +38,7 @@ int main(int argc, char* argv[]) {
 			double c = input.clusters[b].center_c;
 			pathfinding(input, b, r, c, -1);
 		}
-		cycling(input);
+		cycling_all(input);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;
