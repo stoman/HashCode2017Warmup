@@ -28,6 +28,10 @@ struct Input {
 	int r, c, a, l, v, b, t, rs, cs;
 	vector<Cluster> clusters;
 	vector<Ballon> balloon;
+	vector<int> cell_x;
+	vector<int> cell_y;
+	vector<vector<vector<int>>> movement_x;
+	vector<vector<vector<int>>> movement_y;
 };
 
 //input handling
