@@ -44,24 +44,22 @@ void debug_clusters(Input& input) {
 	}
 }
 
-void cluster(Input& input) {
+void cluster(Input& input, int clustercount, int iterations) {
 	cerr << "start clustering" << endl;
 
-	int n = input.b;
-	int m = 100;
-	input.clusters.resize(n);
+	input.clusters.resize(clustercount);
 
 	//first bad matching
 	/*for(int i = 0; i < input.l; i++) {
-		if(i < n) {
+		if(i < clustercount) {
 			input.clusters[i].id = i;
 			input.clusters[i].center_r = input.cell_r[i];
 			input.clusters[i].center_c = input.cell_c[i];
 		}
-		input.clusters[i%n].cells.push_back(make_pair(input.cell_r[i], input.cell_c[i]));
+		input.clusters[i%clustercount].cells.push_back(make_pair(input.cell_r[i], input.cell_c[i]));
 	}*/
 
-	for(int i = 0; i < n; i++) {
+	for(int i = 0; i < clustercount; i++) {
 		//initial clusters
 		int r = rand() % input.l;
 		input.clusters[i].id = i;
@@ -70,7 +68,7 @@ void cluster(Input& input) {
 		reassign_cells(input);
 	}
 
-	for(int i = 0; i < m; i++) {
+	for(int i = 0; i < iterations; i++) {
 		if(i % 10 == 0) {
 			int debug = 0;
 			for(Cluster& cluster: input.clusters) {
@@ -78,7 +76,7 @@ void cluster(Input& input) {
 					debug++;
 				}
 			}
-			cerr << "kmeans step " << (i+1) << "/" << m << ", " << debug << " clusters with cells" << endl;
+			cerr << "kmeans step " << (i+1) << "/" << iterations << ", " << debug << " clusters with cells" << endl;
 		}
 		recompute_centers(input);
 		reassign_cells(input);

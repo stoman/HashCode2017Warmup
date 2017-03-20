@@ -22,25 +22,35 @@ int main(int argc, char* argv[]) {
 	//solve problem
 	cerr << "using algorithm " << algorithm << endl;
 	if(algorithm == "naive") {
-		cluster(input);
+		//play with those arguments to improve results
+		int clustercount = input.b;
+		int clusteriterations = 100;
+
+		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
 		{
-			double r = input.clusters[b].center_r;
-			double c = input.clusters[b].center_c;
+			input.balloons[b].cluster_id = b;
+			double r = input.clusters[input.balloons[b].cluster_id].center_r;
+			double c = input.clusters[input.balloons[b].cluster_id].center_c;
 			pathfinding(input, b, r, c, -1);
 		}
 	}
 	else if(algorithm == "emi") {
+		//play with those arguments to improve results
 		double delta = input.v;
+		int clustercount = input.b;
+		int clusteriterations = 100;
+		int cyclelength = 15;
 
-		cluster(input);
+		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
 		{
-			double r = input.clusters[b].center_r;
-			double c = input.clusters[b].center_c;
+			input.balloons[b].cluster_id = b;
+			double r = input.clusters[input.balloons[b].cluster_id].center_r;
+			double c = input.clusters[input.balloons[b].cluster_id].center_c;
 			pathfinding(input, b, r, c, delta);
 		}
-		cycling_all(input);
+		cycling_all(input, cyclelength);
 	}
 	else {
 		cerr << "unknown algorithm" << endl;

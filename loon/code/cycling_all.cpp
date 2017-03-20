@@ -3,13 +3,12 @@
 #include "cycling.cpp"
 #include "pathfinding.cpp"
 
-void cycling_all(Input& input) {
-	int m = 10;//maximum cycle length
+void cycling_all(Input& input, int cyclelength) {
 
 	for(Balloon& balloon: input.balloons) {
 		int t = balloon.r.size()-1;
 		vector<int> tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as;
-		bool found = cyclefrom(input, balloon.r[t], balloon.c[t], balloon.h[t], m, tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as);
+		bool found = cyclefrom(input, balloon.r[t], balloon.c[t], balloon.h[t], cyclelength, tail_rs, tail_cs, tail_as, cycle_rs, cycle_cs, cycle_as);
 		//use cycle
 		if(found) {
 			for(int i = 0; i < tail_rs.size(); i++) {
