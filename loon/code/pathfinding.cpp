@@ -39,17 +39,17 @@ void bfs(Input &input, vector<Coord> path)	{
 
 void pathfinding(Input& input, int balloon, int r, int c, int delta) {
 	//TODO fill me
-	queue<Coord> q;
-	Coord start;
-	start.r = input.balloons[balloon].r.back();
-	start.c = input.balloons[balloon].c.back();
-	start.h = input.balloons[balloon].h.back();
+	//queue<Coord> q;
+	//Coord start;
+	int rr = input.balloons[balloon].r.back();
+	int cc = input.balloons[balloon].c.back();
+	//int hh = input.balloons[balloon].h.back();
 	
-	q.push(start);
+	//q.push(start);
 	
 	input.balloons[balloon].h.push_back(1);
 	
-	input.balloons[balloon].r.push_back(r+input.movement_r[r][c][1])
-	input.balloons[balloons.c.push_back(c+input.movement_c[r][c][1]);
+	input.balloons[balloon].r.push_back(r+input.movement_r[rr][cc][1]);
+	input.balloons[balloon].c.push_back(c+input.movement_c[rr][cc][1]);
 	//bfs(input,q);
 }
