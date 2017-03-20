@@ -34,7 +34,7 @@ void consider(Input& input, int r, int c, int a, int l, int rn, int cn, int an, 
     }
 }
 
-bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& cycle_rs, vector<int>& cycle_cs, vector<int>& cycle_as) {
+bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& tail_rs, vector<int>& tail_cs, vector<int>& tail_as, vector<int>& cycle_rs, vector<int>& cycle_cs, vector<int>& cycle_as) {
 
     cerr << "Considering " << r << " " << c << " " << a << endl;
 
@@ -73,8 +73,6 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& cycle
         } else {
             cerr << "cycle of len " << (maxlen - l) << endl;
             // Compute cycle
-
-
             break;
         }
 
