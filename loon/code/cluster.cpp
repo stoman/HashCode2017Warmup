@@ -48,7 +48,7 @@ void cluster(Input& input) {
 	cerr << "start clustering" << endl;
 
 	int n = input.b;
-	int m = 500;
+	int m = 100;
 	input.clusters.resize(n);
 
 	//first bad matching

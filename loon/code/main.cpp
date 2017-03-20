@@ -46,11 +46,11 @@ int main(int argc, char* argv[]) {
 	
 	// Output
 	// first time step
-	for (int b = 0; b < input.b; ++b)
+	/*for (int b = 0; b < input.b; ++b)
 	{
 		cout << input.balloons[b].h[0] << " ";
 	}
-	cout << endl;
+	cout << endl;*/
 
 	// all other steps
 	for (int t = 1; t <= input.t; ++t)
