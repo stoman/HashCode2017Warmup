@@ -15,7 +15,7 @@ using namespace std;
 
 //util classes
 struct Cluster {
-	int rx, cy, id;
+	int center_r, center_c, id;
 	vector<pair<int, int>> cells;
 };
 
@@ -27,11 +27,11 @@ struct Balloon {
 struct Input {
 	int r, c, a, l, v, b, t, rs, cs;
 	vector<Cluster> clusters;
-	vector<Ballon> balloon;
-	vector<int> cell_x;
-	vector<int> cell_y;
-	vector<vector<vector<int>>> movement_x;
-	vector<vector<vector<int>>> movement_y;
+	vector<Balloon> balloon;
+	vector<int> cell_r;
+	vector<int> cell_c;
+	vector<vector<vector<int>>> movement_r;
+	vector<vector<vector<int>>> movement_c;
 };
 
 //input handling
