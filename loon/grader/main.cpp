@@ -54,25 +54,42 @@ int gradeFile(ifstream& in, ifstream& ans) {
       unvoc_cell_ids.insert(i);
     }
 
-    for (int b = 0; b < input.b; ++b)
+    set<int> lost_balloons;
+    for (int b : activeBalloons)
     {
       // update position of balloons
       int r = pos_r[b];
       int c = pos_c[b];
       int a = pos_a[b];
       int r_new = r + input.movement_r[r][c][a];
-      int c_new = c + input.movement_c[r][c][a];
+      int c_new = (c + input.movement_c[r][c][a] + input.c) % input.c;
       int a_new = a + alti[t][b];
       pos_r[b] = r_new;
       pos_c[b] = c_new;
       pos_a[b] = a_new;
 
+      // check if balloon is still in correct altitude level
+      if (pos_r[b] < 0 || pos_r[b] >= input.r)
+      {
+        cerr << "Balloon " << b << " is lost in time step " << t << endl;
+        lost_balloons.insert(b);
+      }
+
+      // check if altitude is wrong
+      if (pos_a[b] < 0 || pos_a[b] > input.a)
+      {
+        cerr << "ERROR: Balloon " << b 
+          << " leaves altitude in time step " << t 
+          << ". Altitude is " << pos_a[b] << endl;
+        return -1;
+      }
+
       // check if current ballooon covers new cells
       set<int> covered_cell_ids;
       for (int c_id : unvoc_cell_ids)
       {
-        int u = input.cells_r[c_id];
-        int v = input.cells_c[c_id];
+        int u = input.cell_r[c_id];
+        int v = input.cell_c[c_id];
         int coldist = columndist(input.c, pos_c[b], v);
         int ru = pos_r[b] - u;
         if (ru * ru + coldist * coldist <= input.v * input.v)
@@ -82,17 +99,20 @@ int gradeFile(ifstream& in, ifstream& ans) {
       }
       for (int cov_id : covered_cell_ids)
       {
-        unvoc_cell_ids.remove(cov_id);
+        unvoc_cell_ids.erase(cov_id);
       }
     }
     score += input.l - unvoc_cell_ids.size();
+
+    // delete all balloons that are out of bounds
+    for (int lb : lost_balloons)
+    {
+      activeBalloons.erase(lb);
+    }
   }
 
-
-  //compute score
-  //TODO compute score
-
-  return -1;
+  cerr << "Score: " << score << endl;
+  return score;
 }
 
 //iterate over all test cases
