@@ -10,17 +10,26 @@ struct Coord {
 bool operator < (const Coord &a, const Coord &b)	{
 	if (a.r != b.r)
 		return a.r < b.r;
-	return a.c < b.c;
+	else if (a.c != b.c)
+		return a.c < b.c;
+	else
+		return a.h < b.h;
 }
 
 void check_cell(Input &input, Coord cur, vector<Coord>& path, vector<int>& prev, set<Coord>& visited, vector<int>& dist, int idx)	{
 
-	cur.r += input.movement_r[cur.r][cur.c][cur.h];
-	cur.c += input.movement_r[cur.r][cur.c][cur.h];
+	//cerr << "adding balloon: " << cur.r << ' ' << cur.c << ' ' << cur.h << endl;	
 	
+	int dr = input.movement_r[cur.r][cur.c][cur.h];
+	int dc = input.movement_c[cur.r][cur.c][cur.h];
+	cur.r += dr;
+	cur.c += dc;
+	cur.c = (cur.c + input.c) % input.c;	
+
+	//cerr << "done\n";
+
 	if (visited.find(cur) != visited.end())
-		return;
-		
+		return;		
 	path.push_back(cur);
 	prev.push_back(idx);
 	dist.push_back(dist[idx]+1);
@@ -38,11 +47,11 @@ void bfs(Input &input, vector<Coord>& path, vector<int>& prev)	{
 	while (idx < path.size())	{
 		Coord cur = path[idx];
 		
+		//cerr << "current balloon: " << cur.r << ' ' << cur.c << ' ' << cur.h << endl;
+		
 		if (dist[idx] > 5)
 			break;
 		
-		cur.c = (cur.c + input.c) % input.c; 
-
 		// out of bounds -> stay there
 		if (cur.r >= input.r || cur.r < 0)	{
 			path.push_back(cur);
@@ -68,10 +77,11 @@ void bfs(Input &input, vector<Coord>& path, vector<int>& prev)	{
 				cur.h--;
 			}	
 		}
+		idx++;
 	}
 }
 
-void pathfinding(Input& input, int balloon, int r, int c, int delta) {
+void pathfinding(Input& input, int balloon, double r, double c, int delta) {
 	//TODO fill me
 	vector<Coord> path;
 	vector<int> prev;
@@ -89,7 +99,6 @@ void pathfinding(Input& input, int balloon, int r, int c, int delta) {
 	bfs(input,path,prev);
 	
 	// choose the closest end point
-	Coord end;
 	double mind = 1e9, curd;
 	int idx_min;
 	for (int i = 0; i < path.size(); i++)
@@ -101,12 +110,17 @@ void pathfinding(Input& input, int balloon, int r, int c, int delta) {
 			mind = curd;
 		}
 	}
-	
-	// build reversed path to the closest cell
+
 	vector<Coord> reversed_path;
 	for (int i = idx_min; i != 0; i = prev[i])
 		reversed_path.push_back(path[i]);
-
+	
+	/*cerr << "flying from: " << start.r << ' ' << start.c << ' ' << start.h << endl;
+	cerr << "path\n";
+	for (int i = reversed_path.size()-1; i >= 0; i--)
+		cerr << reversed_path[i].r << ' ' << reversed_path[i].c << ' ' << reversed_path[i].h << endl; 
+	cerr << "end of path\n";*/
+	
 	for (int i = reversed_path.size()-1; i >= 0; i--)
 	{
 		input.balloons[balloon].h.push_back(reversed_path[i].h);
