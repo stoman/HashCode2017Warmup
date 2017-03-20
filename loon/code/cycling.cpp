@@ -24,7 +24,7 @@ int tr_c(int r, int c, int a, Input& input) {
 
 bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& cycle_rs, vector<int>& cycle_cs, vector<int>& cycle_as) {
 
-    cerr << "Considering " << c.center_r << " " << c.center_c << endl;
+    cerr << "Considering " << r << " " << c << " " << a << endl;
 
     queue<int> q_r, q_c, q_a, q_l;
 
@@ -59,7 +59,7 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& cycle
             // }
             // cerr << endl;
         } else {
-            cerr << "cycle of len " << (len - l) << endl;
+            cerr << "cycle of len " << (maxlen - l) << endl;
             // Compute cycle
 
             break;
@@ -83,7 +83,6 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& cycle
                 q_l.push(l - 1);
             }
 
-            
         }
         if (a < input.a) {
             int rn = tr_r(r, c, a + 1, input);
