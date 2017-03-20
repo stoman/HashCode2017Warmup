@@ -46,6 +46,31 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	
-	//print output
-	//TODO print output
+	// Output
+	for (int b = 0; b < input.b; ++b)
+	{
+		cout << input.balloons[b].h[0] << " ";
+	}
+	cout << endl;
+
+	for (int t = 1; t < input.t; ++t)
+	{
+		for (int b = 0; b < input.b; ++b)
+		{
+			int diff = 0;
+			if (input.balloons[b].h.size() >= t)
+				diff = input.balloons[b].h[t] - input.balloons[b].h[t-1];
+			cout << diff << " ";
+		}
+		cout << endl;
+	}
 };
+
+
+
+
+
+
+
+
+
