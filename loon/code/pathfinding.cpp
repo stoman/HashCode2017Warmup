@@ -160,9 +160,9 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta) {
 		int cn = input.balloons[balloon].c[i+1];
 		
 		if (abs(cc-cn) > input.c - abs(cc-cn))
-			cerr << rc << ' ' << cc << ' ' << 0 << ' ' << 0 << ' ' << input.balloons[balloon].cluster_id / ((double)input.clusters.size()) << endl;
+			cerr << cc << ' ' << rc << ' ' << 0 << ' ' << 0 << ' ' << input.balloons[balloon].cluster_id / ((double)input.clusters.size()) << endl;
 		else
-			cerr << rc << ' ' << cc << ' ' << rn-rc << ' ' << cn-cc << ' ' << input.balloons[balloon].cluster_id / ((double)input.clusters.size()) << endl;
+			cerr << cc << ' ' << rc << ' ' << cn-cc << ' ' << rn-rc << ' ' << input.balloons[balloon].cluster_id / ((double)input.clusters.size()) << endl;
 	}
 	cerr << endl;
 }
