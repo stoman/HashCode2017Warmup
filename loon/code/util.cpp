@@ -14,12 +14,20 @@ typedef long long ll;
 using namespace std;
 
 //util classes
-struct SomeClass {
-	int n;
-	SomeClass(int n): n(n) {};
+struct Cluster {
+	int rx, cy, id;
+	vector<pair<int, int>> cells;
+};
+
+struct Balloon {
+	int id, cluster_id;
+	vector<int> r, c, h;
 };
 
 struct Input {
+	int r, c, a, l, v, b, t, rs, cs;
+	vector<Cluster> clusters;
+	vector<Ballon> balloon;
 };
 
 //input handling

@@ -1,6 +1,6 @@
 #pragma once
 #include "util.cpp"
 
-void part1(Input& input) {
+void cluster(Input& input) {
 	//TODO fill me
 }
