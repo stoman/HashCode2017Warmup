@@ -100,32 +100,38 @@ void pathfinding(Input& input, int balloon, double r, double c, int delta) {
 	
 	// choose the closest end point
 	double mind = 1e9, curd;
-	int idx_min = 1;
-	for (int i = 0; i < path.size(); i++)
+	int idx_min = 0;
+	for (int i = 1; i < path.size(); i++)
 	{
 		curd = ((double)path[i].r-r)*((double)path[i].r-r) + ((double)path[i].c-c)*((double)path[i].c-c);
-		if (curd < mind)
+		if (curd < mind || (idx_min == 0 && input.balloons[balloon].h.size() == 1))
 		{
 			idx_min = i;
 			mind = curd;
 		}
 	}
 
+	//cerr << path.size() << endl;
 	vector<Coord> reversed_path;
 	for (int i = idx_min; i != 0; i = prev[i])
 		reversed_path.push_back(path[i]);
 	
-	/*cerr << "flying from: " << start.r << ' ' << start.c << ' ' << start.h << endl;
+	/*
+	cerr << "flying from: " << start.r << ' ' << start.c << ' ' << start.h << endl;
+	cerr << "to target: " << r << ' ' << c << endl;
 	cerr << "path\n";
 	for (int i = reversed_path.size()-1; i >= 0; i--)
 		cerr << reversed_path[i].r << ' ' << reversed_path[i].c << ' ' << reversed_path[i].h << endl; 
-	cerr << "end of path\n";*/
+	cerr << "end of path\n";//*/
 	
 	for (int i = reversed_path.size()-1; i >= 0; i--)
 	{
 		input.balloons[balloon].h.push_back(reversed_path[i].h);
 		input.balloons[balloon].r.push_back(reversed_path[i].r);
 		input.balloons[balloon].c.push_back(reversed_path[i].c);
+		
+		//if (input.balloons[balloon].h.back() > 1000)
+		//	cerr << "ERROR!!!\n";
 		
 		if (input.balloons[balloon].h.size() > input.t)
 			break;
