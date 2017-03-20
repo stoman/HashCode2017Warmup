@@ -3,6 +3,7 @@
 
 #include <set>
 #include <tuple>
+#include <deque>
 
 long id(int r, int c, int a) {
     return r + 10000 * c + 1000000 * a;
@@ -38,7 +39,7 @@ void consider(Input& input, int r, int c, int a, int l, int rn, int cn, int an, 
     }
 }
 
-bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& tail_rs, vector<int>& tail_cs, vector<int>& tail_as, vector<int>& cycle_rs, vector<int>& cycle_cs, vector<int>& cycle_as) {
+bool cyclefrom(Input& input, int r, int c, int a, int maxlen, deque<int>& tail_rs, deque<int>& tail_cs, deque<int>& tail_as, deque<int>& cycle_rs, deque<int>& cycle_cs, deque<int>& cycle_as) {
 
     cerr << "Considering " << r << " " << c << " " << a << endl;
 
@@ -79,35 +80,47 @@ bool cyclefrom(Input& input, int r, int c, int a, int maxlen, vector<int>& tail_
             cerr << "cycle to " << "(" << r << "," << c << "," << a << ")" << endl;
             // Compute cycle
             long lid = idl(r, c, a, l);
+
             int prer = prevr[lid];
             int prec = prevc[lid];
             int prea = preva[lid];
             l++;
-
+            lid = idl(prer, prec, prea, l);
+            long newid = id(prer, prec, prea);
             cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
 
-            long newid = id(prer, prec, prea);
+            cycle_rs.push_front(prer);
+            cycle_rs.push_front(prec);
+            cycle_rs.push_front(prea);
 
             // find cycle
             while(newid != i) {
-
-                lid = idl(r, c, a, l);
                 prer = prevr[lid];
                 prec = prevc[lid];
                 prea = preva[lid];
                 l++;
+                lid = idl(prer, prec, prea, l);
+                newid = id(prer, prec, prea);
                 cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
+
+                cycle_rs.push_front(prer);
+                cycle_rs.push_front(prec);
+                cycle_rs.push_front(prea);
             }
 
             // find tail
             while(l != maxlen) {
-
-                lid = idl(r, c, a, l);
                 prer = prevr[lid];
                 prec = prevc[lid];
                 prea = preva[lid];
                 l++;
+                lid = idl(prer, prec, prea, l);
+                newid = id(prer, prec, prea);
                 cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
+
+                cycle_rs.push_front(prer);
+                cycle_rs.push_front(prec);
+                cycle_rs.push_front(prea);
             }
 
             return true;
@@ -147,7 +160,7 @@ void cycling(Input& input) {
     // graph
 
     for (auto& c : input.clusters) {
-        vector<int> tr, tc, ta, rs, cs, as;
+        deque<int> tr, tc, ta, rs, cs, as;
         cyclefrom(input, c.center_r, c.center_c, 1, 15, tr, tc, ta, rs, cs, as);
     }
     cerr << "end Emi" << endl;
