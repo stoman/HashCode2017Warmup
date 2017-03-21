@@ -3,7 +3,7 @@
 #include "cycling.cpp"
 #include "pathfinding.cpp"
 
-void cycling_all(Input& input, int cyclelength) {
+void cycling_all(Input& input, int cyclelength, int bfsdepth) {
 
 	for(Balloon& balloon: input.balloons) {
 		int t = balloon.r.size()-1;
@@ -30,7 +30,7 @@ void cycling_all(Input& input, int cyclelength) {
 		}
 		//try to stay close to the cluster greedily
 		else {
-			pathfinding(input, balloon.id, input.clusters[balloon.cluster_id].center_r, input.clusters[balloon.cluster_id].center_c, -1);
+			pathfinding(input, balloon.id, input.clusters[balloon.cluster_id].center_r, input.clusters[balloon.cluster_id].center_c, -1,bfsdepth);
 		}
 	}
 }
