@@ -53,6 +53,13 @@ void buildcycle(int r, int c, int a, int rn, int cn, int an, int l, int maxlen, 
     cerr << "cycle to " << "(" << rn << "," << cn << "," << an << ")" << endl;
     // Compute cycle
     long i = id(rn, cn, an);
+
+    cycle_rs.clear();
+    cycle_cs.clear();
+    cycle_as.clear();
+    tail_rs.clear();
+    tail_cs.clear();
+    tail_as.clear();
     
     int prer = r;
     int prec = c;
@@ -60,24 +67,19 @@ void buildcycle(int r, int c, int a, int rn, int cn, int an, int l, int maxlen, 
     // l++;
 
     long newid = id(prer, prec, prea);
-    cerr << "going via " << "(" << prer << "," << prec << "," << prea << ")" << endl;
-
-    cycle_rs.push_front(prer);
-    cycle_rs.push_front(prec);
-    cycle_rs.push_front(prea);
 
     // find cycle
     while(newid != i) {
+        cerr << "going via " << "(" << prer << "," << prec << "," << prea << "," << l << ")" << endl;
+        cycle_rs.push_front(prer);
+        cycle_cs.push_front(prec);
+        cycle_as.push_front(prea);
+
         prer = prevr[newid];
         prec = prevc[newid];
         prea = preva[newid];
-        l++;
         newid = id(prer, prec, prea);
-        cerr << "going via " << "(" << prer << "," << prec << "," << prea << "," << l << ")" << endl;
-
-        cycle_rs.push_front(prer);
-        cycle_rs.push_front(prec);
-        cycle_rs.push_front(prea);
+        l++;
 
         if (l > maxlen + 5) {
             cerr << "obviously broken. stopping" << endl;
@@ -96,11 +98,30 @@ void buildcycle(int r, int c, int a, int rn, int cn, int an, int l, int maxlen, 
         cerr << "going via " << "(" << prer << "," << prec << "," << prea << "," << l << ")" << endl;
 
         tail_rs.push_front(prer);
-        tail_rs.push_front(prec);
-        tail_rs.push_front(prea);
+        tail_cs.push_front(prec);
+        tail_as.push_front(prea);
     }
 
-    // TODO: remove first step - (starting node)?
+    // remove first step - (starting node)
+    if (tail_rs.empty()) {
+        cycle_rs.push_back(rn);
+        cycle_cs.push_back(cn);
+        cycle_as.push_back(an);
+    } else {
+        tail_rs.pop_front();
+        tail_cs.pop_front();
+        tail_as.pop_front();
+    }
+
+    cerr << "tail: ";
+    for (int j = 0; j < tail_rs.size(); j++) {
+        cerr << "(" << tail_rs[j] << "," << tail_cs[j] << "," << tail_as[j] << "), ";
+    }
+    cerr << "cycle: ";
+    for (int j = 0; j < cycle_rs.size(); j++) {
+        cerr << "(" << cycle_rs[j] << "," << cycle_cs[j] << "," << cycle_as[j] << "), ";
+    }
+    cerr << endl;
 }
 
 bool dfsvisit(int r, int c, int a, int l, int maxlen, map<long, int>& prevr, map<long, int>& prevc, map<long, int>& preva, map<long,int>& state, int& tt, map<long, int>& disc, map<long, int> finish, Input& input, deque<int>& tail_rs, deque<int>& tail_cs, deque<int>& tail_as, deque<int>& cycle_rs, deque<int>& cycle_cs, deque<int>& cycle_as) {
