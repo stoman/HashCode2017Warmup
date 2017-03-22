@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
                 cn += input.movement_c[rc][cc][an];
             }
 
-            cout << cc << ' ' << rc << ' ' << cn-cc << ' ' << rn-rc << ' ' << i << endl;
+            cout << cc << ' ' << rc + (tt / 100.0) << ' ' << cn-cc << ' ' << rn-rc << ' ' << an << endl;
             cn = (cn + input.c) % input.c;
 
             if (tt + 1 < input.t) {
