@@ -52,6 +52,11 @@ int gradeFile(ifstream& in, ifstream& ans) {
     for (int b = 0; b < input.b; ++b)
     {
       ans >> alti[t][b];
+      if (alti[t][b] != -1 && alti[t][b] != 0 && alti[t][b] != 1)
+      {
+        cerr << "ERROR: Output data has altitude change of " << alti[t][b] << endl;
+        return -2;
+      }
     }
   }
 
