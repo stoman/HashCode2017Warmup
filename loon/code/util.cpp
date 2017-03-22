@@ -65,6 +65,16 @@ void readInput(Input& input, istream& in) {
 		}
 	}
 
+	// set movements of altitude level 0 to (0,0)
+	for (int r = 0; r < input.r; ++r)
+	{
+		for (int c = 0; c < input.c; ++c)
+		{
+			input.movement_r[r][c][0] = 0;
+			input.movement_c[r][c][0] = 0;
+		}
+	}
+
 
 	for (int a = 1; a <= input.a; ++a)
 	{
