@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 		//play with those arguments to improve results
 		int clustercount = input.b;
 		int clusteriterations = 100;
-		int bfsdepth = 10;
+		int bfsdepth = 12;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 		int clustercount = input.b;
 		int clusteriterations = 100;
 		int cyclelength = 15;
-		int bfsdepth = 10;
+		int bfsdepth = 12;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
@@ -57,6 +57,36 @@ int main(int argc, char* argv[]) {
 		cerr << "Cycling start" << endl;
 		cycling_all(input, cyclelength,bfsdepth);
 		cerr << "Cycling done" << endl;
+	}
+	else if(algorithm == "channel") {
+		double delta = input.v;
+		int clustercount = input.b;
+		int clusteriterations = 100;
+		int bfsdepth = 12;
+		int num_channels = 7;
+
+		cluster(input, clustercount, clusteriterations);
+		for (int b = 0; b < input.b; ++b) {
+			while(input.balloons[b].r.size() <= input.t) {
+				int channel = b % num_channels;
+				int best_cluster = -1;
+				for(int c = 0; c < input.clusters.size(); c++) {
+					if((int) (input.clusters[c].center_r * num_channels / input.r) == channel) {
+						if(best_cluster == -1) {
+							best_cluster = c;
+						}
+						else {
+							int diff_c = (input.clusters[c].center_c - input.balloons.c[input.balloons.c.size()] + input.c) % input.c;
+							int diff_best = (input.clusters[best_cluster].center_c - input.balloons.c[input.balloons.c.size()] + input.c) % input.c;
+							if(diff_c < diff_best) {
+								best_cluster = c;
+							}
+						}
+					}
+				}
+				pathfinding(input, b, input.clusters[best_cluster].center_r, input.clusters[best_cluster].center_c, delta, bfsdepth);
+			}
+		}
 	}
 	else {
 		cerr << "unknown algorithm" << endl;

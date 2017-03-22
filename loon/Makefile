@@ -1,6 +1,6 @@
 CXX=g++ -std=c++11
 MAINFILE=code/main
-STRATEGIES=naive emi
+STRATEGIES=naive emi channel
 ALLOUTPUTS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.ans, $(wildcard data/*.in)))
 ALLVISUALIZATIONS=$(foreach strategy, $(STRATEGIES), $(patsubst data/%.in, data/$(strategy).%.png, $(filter-out data/big.in, $(wildcard data/*.in))))
 
@@ -32,3 +32,6 @@ data/naive.%.ans: $(MAINFILE)
 
 data/emi.%.ans: $(MAINFILE)
 	$(MAINFILE) emi < $(@:data/emi.%.ans=data/%.in) > $@
+
+data/channel.%.ans: $(MAINFILE)
+	$(MAINFILE) channel < $(@:data/emi.%.ans=data/%.in) > $@
