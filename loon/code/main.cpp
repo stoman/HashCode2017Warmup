@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
 	else if(algorithm == "channel") {
 		double delta = 10;
 		int clusteriterations = 100;
-		int bfsdepth = 10;
+		int bfsdepth = 15;
 		int num_channels = input.r / input.v + 1;
 		int clustercount = input.b;
 		int delta_c = 5;
