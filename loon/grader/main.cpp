@@ -18,6 +18,27 @@ int columndist(int C, int c1, int c2)
 }
 
 
+void updateBalloonPosition(Input &input, int t, int b, 
+  vector<vector<int>> &alti, vector<int> &pos_r, 
+    vector<int> &pos_c, vector<int> &pos_a)
+{
+  // update height
+  pos_a[b] += alti[t][b];
+
+  // update position
+  if (pos_a[b] != 0)
+  {
+    int r = pos_r[b];
+    int c = pos_c[b];
+    int a = pos_a[b];
+    int r_new = r + input.movement_r[r][c][a];
+    int c_new = (c + input.movement_c[r][c][a] + input.c) % input.c;
+    pos_r[b] = r_new;
+    pos_c[b] = c_new;
+  }
+}
+
+
 //grade one single test case
 int gradeFile(ifstream& in, ifstream& ans) {
   //read input
@@ -57,16 +78,7 @@ int gradeFile(ifstream& in, ifstream& ans) {
     set<int> lost_balloons;
     for (int b : activeBalloons)
     {
-      // update position of balloons
-      int r = pos_r[b];
-      int c = pos_c[b];
-      int a = pos_a[b];
-      int r_new = r + input.movement_r[r][c][a];
-      int c_new = (c + input.movement_c[r][c][a] + input.c) % input.c;
-      int a_new = a + alti[t][b];
-      pos_r[b] = r_new;
-      pos_c[b] = c_new;
-      pos_a[b] = a_new;
+      updateBalloonPosition(input, t, b, alti, pos_r, pos_c, pos_a);
 
       // check if balloon is still in correct altitude level
       if (pos_r[b] < 0 || pos_r[b] >= input.r)
