@@ -26,6 +26,14 @@ double compute_distance(double r1, double c1, double r2, double c2, double r, do
 	return sqrt(dr*dr+dc*dc);
 }
 
+int check_cell_value(Input &input, int r, int c) 	{
+	c = (c + input.c) % input.c;
+	if (r >= 0 && r < input.r)
+		return input.cell_field[r][c];
+	else
+		return 0;
+}
+
 void check_cell(Input &input, Coord cur, vector<Coord>& path, vector<int>& prev, set<Coord>& visited, vector<int>& dist, 
 					int idx, double r, double c)	{
 
@@ -40,16 +48,25 @@ void check_cell(Input &input, Coord cur, vector<Coord>& path, vector<int>& prev,
 
 	if (visited.find(cur) != visited.end())// || (dinit+20. < dcur && path.size() > 1))
 		return;		
+	
+	int cnt_cells = 0;
+	for (int i = -2; i <= 2; i++)
+		 for (int j = -2; j <= 2; j++)
+		 	cnt_cells += check_cell_value(intput,cur.r+i,cur.c+j);
+	
+	if (cnt > 12)
+		dist.push_back(dist[idx]+alpha);
+	else
+		dist.push_back(dist[idx]+1.0);
 	path.push_back(cur);
 	prev.push_back(idx);
-	dist.push_back(dist[idx]+1);
 	visited.insert(cur);
 }
 
-void bfs(Input &input, vector<Coord>& path, vector<int>& prev, double r, double c, int bfsdepth)	{
+void bfs(Input &input, vector<Coord>& path, vector<int>& prev, double r, double c, int bfsdepth, double alpha)	{
 	
 	set<Coord> visited;
-	vector<int> dist;
+	vector<double> dist;
 	int idx = 0;
 	dist.push_back(0);
 	visited.insert(path[idx]);
@@ -59,7 +76,7 @@ void bfs(Input &input, vector<Coord>& path, vector<int>& prev, double r, double 
 		
 		//cerr << "current balloon: " << cur.r << ' ' << cur.c << ' ' << cur.h << endl;
 		
-		if (dist[idx] > bfsdepth)
+		if (dist[idx] > (double)bfsdepth)
 			break;
 		
 		//if (path.size() > 10000)
@@ -74,19 +91,19 @@ void bfs(Input &input, vector<Coord>& path, vector<int>& prev, double r, double 
 		
 		// fly on neighboring altitudes
 		else	{
-			check_cell(input,cur,path,prev,visited,dist,idx,r,c);
+			check_cell(input,cur,path,prev,visited,dist,idx,r,c,alpha);
 			
 			if (cur.h > 1)
 			{
 				cur.h--;
-				check_cell(input,cur,path,prev,visited,dist,idx,r,c);
+				check_cell(input,cur,path,prev,visited,dist,idx,r,c,alpha);
 				cur.h++;
 			}
 			
 			if (cur.h < input.a)	
 			{
 				cur.h++;
-				check_cell(input,cur,path,prev,visited,dist,idx,r,c);
+				check_cell(input,cur,path,prev,visited,dist,idx,r,c,alpha);
 				cur.h--;
 			}	
 		}
@@ -143,7 +160,7 @@ bool check_horizontal_distance(double c1, double c2, double delta_c, double c)	{
 		return c1 > c2;
 }
 
-void pathfinding(Input& input, int balloon, double r, double c, double delta, int bfsdepth, double delta_c) {
+void pathfinding(Input& input, int balloon, double r, double c, double delta, int bfsdepth, double delta_c, double alpha=1.0) {
 
 	bool step_done = false;
 	while (step_done == false  || 
@@ -163,7 +180,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta, in
 		path.push_back(start);
 		prev.push_back(-1);
 		
-		bfs(input,path,prev,r,c,bfsdepth);
+		bfs(input,path,prev,r,c,bfsdepth,alpha);
 
 		int idx_min = choose_closest_point(input,path,r,c);
 
