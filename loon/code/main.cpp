@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 		//play with those arguments to improve results
 		int clustercount = input.b;
 		int clusteriterations = 100;
-		int bfsdepth = 12;
+		int bfsdepth = 9;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
@@ -34,6 +34,7 @@ int main(int argc, char* argv[]) {
 			double r = input.clusters[input.balloons[b].cluster_id].center_r;
 			double c = input.clusters[input.balloons[b].cluster_id].center_c;
 			pathfinding(input, b, r, c, -1, bfsdepth);
+			cerr << "Pathfinding " << b << " done" << endl;
 		}
 	}
 	else if(algorithm == "emi") {
@@ -42,7 +43,7 @@ int main(int argc, char* argv[]) {
 		int clustercount = input.b;
 		int clusteriterations = 100;
 		int cyclelength = 15;
-		int bfsdepth = 12;
+		int bfsdepth = 9;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
@@ -51,8 +52,11 @@ int main(int argc, char* argv[]) {
 			double r = input.clusters[input.balloons[b].cluster_id].center_r;
 			double c = input.clusters[input.balloons[b].cluster_id].center_c;
 			pathfinding(input, b, r, c, delta,bfsdepth);
+			cerr << "Pathfinding " << b << " done" << endl;
 		}
+		cerr << "Cycling start" << endl;
 		cycling_all(input, cyclelength,bfsdepth);
+		cerr << "Cycling done" << endl;
 	}
 	else {
 		cerr << "unknown algorithm" << endl;
