@@ -30,7 +30,7 @@ void cycling_all(Input& input, int cyclelength, int bfsdepth) {
 		}
 		//try to stay close to the cluster greedily
 		else {
-			pathfinding(input, balloon.id, input.clusters[balloon.cluster_id].center_r, input.clusters[balloon.cluster_id].center_c, -1,bfsdepth);
+			pathfinding(input, balloon.id, input.clusters[balloon.cluster_id].center_r, input.clusters[balloon.cluster_id].center_c, -1,bfsdepth,input.c+1);
 		}
 	}
 }

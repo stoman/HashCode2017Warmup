@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 			input.balloons[b].cluster_id = b;
 			double r = input.clusters[input.balloons[b].cluster_id].center_r;
 			double c = input.clusters[input.balloons[b].cluster_id].center_c;
-			pathfinding(input, b, r, c, -1, bfsdepth);
+			pathfinding(input, b, r, c, -1, bfsdepth,input.c+1);
 			cerr << "Pathfinding " << b << " done" << endl;
 		}
 	}
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 			input.balloons[b].cluster_id = b;
 			double r = input.clusters[input.balloons[b].cluster_id].center_r;
 			double c = input.clusters[input.balloons[b].cluster_id].center_c;
-			pathfinding(input, b, r, c, delta,bfsdepth);
+			pathfinding(input, b, r, c, delta,bfsdepth,input.c+1);
 			cerr << "Pathfinding " << b << " done" << endl;
 		}
 		cerr << "Cycling start" << endl;
