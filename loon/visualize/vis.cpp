@@ -36,27 +36,24 @@ int main(int argc, char* argv[]) {
             int an = ac + da;
             // cerr << "loon " << i << " starting " << rc << " " << cc << " " << ac << endl;
             int rn = rc + input.movement_r[rc][cc][an];
-            int cn = (cc + input.movement_c[rc][cc][an] + input.c) % input.c;
+            int cn = cc + input.movement_c[rc][cc][an];
+
+            cout << cc << ' ' << rc << ' ' << cn-cc << ' ' << rn-rc << ' ' << i << endl;
+            // << input.balloons[balloon].cluster_id / ((double)input.clusters.size()) << endl;
 
             if (rn < 0 || input.r <= rn || an <= 0 || an > input.a) {
-                cerr << "loon " << i << " lost" << endl;
+                // cerr << "loon " << i << " lost" << endl;
                 rn = rc;
                 cn = cc;
                 an = ac;
             }
+            cn = (cn + input.c) % input.c;
 
             if (tt + 1 < input.t) {
                 input.balloons[i].r.push_back(rn);
                 input.balloons[i].c.push_back(cn);
                 input.balloons[i].h.push_back(an);
             }
-
-            if (abs(cc-cn) > input.c - abs(cc-cn))
-                cout << cc << ' ' << rc << ' ' << 0 << ' ' << 0 << ' ' << i << endl;
-                // input.balloons[balloon].cluster_id / ((double)input.clusters.size()) << endl;
-            else
-                cout << cc << ' ' << rc << ' ' << cn-cc << ' ' << rn-rc << ' ' << i << endl;
-                 // << input.balloons[balloon].cluster_id / ((double)input.clusters.size()) << endl;
         }
     }
     // cerr << "done" << endl;
