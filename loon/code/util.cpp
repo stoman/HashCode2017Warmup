@@ -34,6 +34,7 @@ struct Input {
 	vector<int> cell_c;
 	vector<vector<vector<int>>> movement_r;
 	vector<vector<vector<int>>> movement_c;
+	vector<vector<int>> cell_field;
 };
 
 //input handling
@@ -98,6 +99,13 @@ void readInput(Input& input, istream& in) {
 		input.balloons[b].c.push_back(input.cs);
 		input.balloons[b].h.push_back(0);
 	}
+
+	// initialize cell field
+	input.cell_field.resize(input.r);
+	for (int i = 0; i < input.r; ++i)
+		input.cell_field[i].resize(input.c, 0);
+	for (int i = 0; i < input.cell_r.size(); ++i)
+		input.cell_field[input.cell_r[i]][input.cell_c[i]] = 1;
 }
 
 
