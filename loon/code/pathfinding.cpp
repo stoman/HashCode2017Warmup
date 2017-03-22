@@ -128,11 +128,28 @@ int choose_closest_point(Input &input, vector<Coord>& path, double r, double c) 
 	return idx_min;
 }
 
+bool check_horizontal_distance(double c1, double c2, double delta_c, double c)	{
+	
+	if (delta_c > c)
+		return true;
+	
+	c2 += delta_c;
+	if (c2 > c)
+		c2 -= c;
+
+	if (abs(c2-c1) < c - abs(c2-c1))
+		return c1 < c2;
+	else
+		return c1 > c2;
+}
+
 void pathfinding(Input& input, int balloon, double r, double c, double delta, int bfsdepth, double delta_c) {
 
-	while (input.balloons[balloon].h.size() <= input.t && 
-		   compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),r,c,input.r,input.c) > delta &&
-		   input.balloons[balloon].c.back() <= c + delta_c)
+	bool step_done = false;
+	while (step_done == false  || 
+		   (input.balloons[balloon].h.size() <= input.t &&  
+		    compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),r,c,input.r,input.c) > delta &&
+		    check_horizontal_distance(input.balloons[balloon].c.back(),c,delta_c,input.c)) )
 	{
 		vector<Coord> path;
 		vector<int> prev;
@@ -151,7 +168,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta, in
 		int idx_min = choose_closest_point(input,path,r,c);
 
 		append_path(input,balloon,path,prev,idx_min);
-		
+		step_done = true;
 	}
 	// end of while
 	
