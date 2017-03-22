@@ -59,12 +59,13 @@ int main(int argc, char* argv[]) {
 		cerr << "Cycling done" << endl;
 	}
 	else if(algorithm == "channel") {
-		double delta = 0;
+		double delta = 10;
 		int clustercount = input.l / 20 + 1;
 		int clusteriterations = 100;
 		int bfsdepth = 12;
 		int num_channels = input.r/10 + 1;
 		int delta_c = 5;
+		double alpha = 0.5;//make this bigger to ignore more of the lower part of the world
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b) {
@@ -75,10 +76,10 @@ int main(int argc, char* argv[]) {
 			}
 			cerr << "computing balloon " << b << ":";
 			while(input.balloons[b].r.size() <= input.t) {
-				int channel = b % num_channels;
+				int channel = (int) (alpha * num_channels) + (b % num_channels);
 				int best_cluster = -1;
 				for(int c = 0; c < input.clusters.size(); c++) {
-					if((int) (input.clusters[c].center_r * num_channels / input.r) == channel) {
+					if((int) ((input.clusters[c].center_r) * (num_channels * (1 + alpha)) / input.r) == channel) {
 						if(best_cluster == -1) {
 							best_cluster = c;
 						}
