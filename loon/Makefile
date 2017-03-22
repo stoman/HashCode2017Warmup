@@ -46,8 +46,11 @@ visualize/vis: $(wildcard visualize/*.cpp)
 	$(CXX) -o visualize/vis visualize/vis.cpp
 
 # pictures
-data/%.in.dat: visualize/InputToGnu.class
+data/%.in.dat: visualize/InputToGnu.class data/%.in
 	java -cp visualize InputToGnu < $(@:%.dat=%) > $@
+
+data/%.in.png: visualize/InputToGnu.class data/%.in.dat
+	gnuplot -e "datafile='$(@:data/%.png=data/%.dat)';outputname='$@'" visualize/plot.plg
 
 data/emi.%.ans.dat: visualize/vis data/emi.%.ans
 	visualize/vis $(@:%.dat=%) < $(@:data/emi.%.ans.dat=data/%.in) > $@

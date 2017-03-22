@@ -11,7 +11,7 @@ set offsets 5, 5, 5, 5
 set palette defined ( 0 '#00ff00', 1 '#0000ff')
 
 file_exists(file) = system("[ -f '".file."' ] && echo '1' || echo '0'") + 0
-if ( file_exists(datafile2) ) load datafile2
+# if ( file_exists(datafile2) ) load datafile2
 
 plot datafile u 1:2:3 with points pt 5 palette
 
