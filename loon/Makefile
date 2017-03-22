@@ -32,3 +32,21 @@ data/naive.%.ans: $(MAINFILE)
 
 data/emi.%.ans: $(MAINFILE)
 	$(MAINFILE) emi < $(@:data/emi.%.ans=data/%.in) > $@
+
+# .ans.dat
+visualize/vis: $(wildcard visualize/*.cpp)
+	$(CXX) -o visualize/vis visualize/vis.cpp
+
+data/emi.%.ans.dat: visualize/vis data/emi.%.ans
+	visualize/vis $(@:%.dat=%) < $(@:data/emi.%.ans.dat=data/%.in) > $@
+
+# .in.dat
+visualize/%.class: $(@:%.class=%.java)
+	javac -cp visualize $(@:%.class=%.java)
+
+data/%.in.dat: visualize/InputToGnu.class
+	java -cp visualize InputToGnu < $(@:%.dat=%) > $@
+
+# pngs
+data/emi.%.png: data/emi.%.ans.dat data/%.in.dat
+	gnuplot -e "datafile='$(@:data/emi.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot_balloons.plg
