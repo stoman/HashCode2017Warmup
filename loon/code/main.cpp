@@ -60,23 +60,24 @@ int main(int argc, char* argv[]) {
 	}
 	else if(algorithm == "channel") {
 		double delta = 10;
-		int clustercount = input.l / 20 + 1;
 		int clusteriterations = 100;
 		int bfsdepth = 10;
-		int num_channels = input.r/10 + 1;
+		int num_channels = input.b / 2 + 1;
+		int clustercount = 10 * num_channels;
 		int delta_c = 5;
 		double ignore_south = 0.5;//make this bigger to ignore more of the lower part of the world
+		int wait_time = 5;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b) {
-			for(int i = 0; i < b; i++) {
+			int channel = (int) (ignore_south * num_channels) + (b % num_channels);
+			for(int i = 0; i < wait_time * b / num_channels; i++) {
 				input.balloons[b].r.push_back(input.balloons[b].r[input.balloons[b].r.size() - 1]);
 				input.balloons[b].c.push_back(input.balloons[b].c[input.balloons[b].c.size() - 1]);
 				input.balloons[b].h.push_back(input.balloons[b].h[input.balloons[b].h.size() - 1]);
 			}
 			cerr << "computing balloon " << b << ":";
 			while(input.balloons[b].r.size() <= input.t) {
-				int channel = (int) (ignore_south * num_channels) + (b % num_channels);
 				int best_cluster = -1;
 				for(int c = 0; c < input.clusters.size(); c++) {
 					if((int) ((input.clusters[c].center_r) * (num_channels * (1 + ignore_south)) / input.r) == channel) {
