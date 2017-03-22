@@ -70,7 +70,7 @@ void buildcycle(int r, int c, int a, int rn, int cn, int an, int l, int maxlen, 
 
     // find cycle
     while(newid != i) {
-        cerr << "going via " << "(" << prer << "," << prec << "," << prea << "," << l << ")" << endl;
+        // cerr << "going via " << "(" << prer << "," << prec << "," << prea << "," << l << ")" << endl;
         cycle_rs.push_front(prer);
         cycle_cs.push_front(prec);
         cycle_as.push_front(prea);
@@ -95,7 +95,7 @@ void buildcycle(int r, int c, int a, int rn, int cn, int an, int l, int maxlen, 
         prea = preva[newid];
         l++;
         newid = id(prer, prec, prea);
-        cerr << "going via " << "(" << prer << "," << prec << "," << prea << "," << l << ")" << endl;
+        // cerr << "going via " << "(" << prer << "," << prec << "," << prea << "," << l << ")" << endl;
 
         tail_rs.push_front(prer);
         tail_cs.push_front(prec);
