@@ -66,6 +66,7 @@ int main(int argc, char* argv[]) {
 		int clustercount = input.b;
 		int delta_c = 5;
 		int wait_time = 5;
+		double alpha = -0.1;
 
 		cluster(input, clustercount, clusteriterations);
 
@@ -100,7 +101,7 @@ int main(int argc, char* argv[]) {
 				cerr << " " << input.balloons[b].c.size();
 				//cerr << " balloon " << input.balloons[b].r[input.balloons[b].r.size() - 1] << " " << input.balloons[b].c[input.balloons[b].c.size() - 1];
 				//cerr << " cluster " << input.clusters[best_cluster].center_r << " " << input.clusters[best_cluster].center_c;
-				pathfinding(input, b, input.clusters[best_cluster].center_r, input.clusters[best_cluster].center_c, delta, bfsdepth, delta_c);
+				pathfinding(input, b, input.clusters[best_cluster].center_r, input.clusters[best_cluster].center_c, delta, bfsdepth, delta_c, alpha);
 			}
 			cerr << endl;
 		}
