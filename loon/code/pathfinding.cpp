@@ -46,7 +46,7 @@ void check_cell(Input &input, Coord cur, vector<Coord>& path, vector<int>& prev,
 	visited.insert(cur);
 }
 
-void bfs(Input &input, vector<Coord>& path, vector<int>& prev, double r, double c, const int bfsdepth)	{
+void bfs(Input &input, vector<Coord>& path, vector<int>& prev, double r, double c, int bfsdepth)	{
 	
 	set<Coord> visited;
 	vector<int> dist;
@@ -128,10 +128,11 @@ int choose_closest_point(Input &input, vector<Coord>& path, double r, double c) 
 	return idx_min;
 }
 
-void pathfinding(Input& input, int balloon, double r, double c, double delta, const int bfsdepth) {
+void pathfinding(Input& input, int balloon, double r, double c, double delta, int bfsdepth, double delta_c) {
 
 	while (input.balloons[balloon].h.size() <= input.t && 
-		compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),r,c,input.r,input.c) > delta)
+		   compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),r,c,input.r,input.c) > delta &&
+		   input.balloons[balloon].c.back() <= c + delta_c)
 	{
 		vector<Coord> path;
 		vector<int> prev;
@@ -155,7 +156,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta, co
 	// end of while
 	
 	// DEBUG OUTPUT	
-	bool inside = true, arrived = false;
+	/*bool inside = true, arrived = false;
 	for (int i = 0; i < input.balloons[balloon].r.size(); i++)
 	{
 		int rc = input.balloons[balloon].r[i];
@@ -177,7 +178,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta, co
 			cerr << "Ballon " << balloon << " was lost at turn " << i << ".\n"; 
 			inside = false;
 		}
-	}
+	}//*/
 	
 	// VISULAIZATION OF THE PATH
 	/*
