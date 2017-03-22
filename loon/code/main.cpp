@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 		//play with those arguments to improve results
 		int clustercount = input.b;
 		int clusteriterations = 100;
-		int bfsdepth = 10;
+		int bfsdepth = 12;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 			input.balloons[b].cluster_id = b;
 			double r = input.clusters[input.balloons[b].cluster_id].center_r;
 			double c = input.clusters[input.balloons[b].cluster_id].center_c;
-			pathfinding(input, b, r, c, -1, bfsdepth);
+			pathfinding(input, b, r, c, -1, bfsdepth,input.c+1);
 			cerr << "Pathfinding " << b << " done" << endl;
 		}
 	}
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 		int clustercount = input.b;
 		int clusteriterations = 100;
 		int cyclelength = 15;
-		int bfsdepth = 10;
+		int bfsdepth = 12;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 			input.balloons[b].cluster_id = b;
 			double r = input.clusters[input.balloons[b].cluster_id].center_r;
 			double c = input.clusters[input.balloons[b].cluster_id].center_c;
-			pathfinding(input, b, r, c, delta,bfsdepth);
+			pathfinding(input, b, r, c, delta,bfsdepth,input.c+1);
 			cerr << "Pathfinding " << b << " done" << endl;
 		}
 		cerr << "Cycling start" << endl;
