@@ -155,7 +155,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta, co
 	// end of while
 	
 	// DEBUG OUTPUT	
-	/*bool inside = true, arrived = false;
+	bool inside = true, arrived = false;
 	for (int i = 0; i < input.balloons[balloon].r.size(); i++)
 	{
 		int rc = input.balloons[balloon].r[i];
@@ -177,7 +177,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta, co
 			cerr << "Ballon " << balloon << " was lost at turn " << i << ".\n"; 
 			inside = false;
 		}
-	}*/
+	}
 	
 	// VISULAIZATION OF THE PATH
 	/*

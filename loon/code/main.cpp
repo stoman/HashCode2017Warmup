@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 		//play with those arguments to improve results
 		int clustercount = input.b;
 		int clusteriterations = 100;
-		int bfsdepth = 9;
+		int bfsdepth = 10;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 		int clustercount = input.b;
 		int clusteriterations = 100;
 		int cyclelength = 15;
-		int bfsdepth = 9;
+		int bfsdepth = 10;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b)
