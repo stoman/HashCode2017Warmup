@@ -23,7 +23,7 @@ double compute_distance(double r1, double c1, double h, double r2, double c2, do
 
 	double dr = abs(r1-r2);
 	double dc = min(abs(c1-c2),c-abs(c1-c2));
-	return sqrt(dr*dr+dc*dc) + 10.*(h-1.);
+	return sqrt(dr*dr+dc*dc) + 20.*(h-1.)/(sqrt(dr*dr+dc*dc)+1);
 }
 
 int check_cell_value(Input &input, int r, int c) 	{
