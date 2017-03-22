@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 			input.balloons[b].cluster_id = b;
 			double r = input.clusters[input.balloons[b].cluster_id].center_r;
 			double c = input.clusters[input.balloons[b].cluster_id].center_c;
-			pathfinding(input, b, r, c, -1, bfsdepth,input.c+1);
+			pathfinding(input, b, r, c, -1, bfsdepth, input.c+1);
 			cerr << "Pathfinding " << b << " done" << endl;
 		}
 	}
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 			input.balloons[b].cluster_id = b;
 			double r = input.clusters[input.balloons[b].cluster_id].center_r;
 			double c = input.clusters[input.balloons[b].cluster_id].center_c;
-			pathfinding(input, b, r, c, delta,bfsdepth,input.c+1);
+			pathfinding(input, b, r, c, delta, bfsdepth, input.c+1);
 			cerr << "Pathfinding " << b << " done" << endl;
 		}
 		cerr << "Cycling start" << endl;
@@ -59,14 +59,21 @@ int main(int argc, char* argv[]) {
 		cerr << "Cycling done" << endl;
 	}
 	else if(algorithm == "channel") {
-		double delta = input.v;
-		int clustercount = input.b;
+		double delta = 0;
+		int clustercount = input.l / 20 + 1;
 		int clusteriterations = 100;
 		int bfsdepth = 12;
-		int num_channels = 7;
+		int num_channels = input.r/10 + 1;
+		int delta_c = 5;
 
 		cluster(input, clustercount, clusteriterations);
 		for (int b = 0; b < input.b; ++b) {
+			for(int i = 0; i < b; i++) {
+				input.balloons[b].r.push_back(input.balloons[b].r[input.balloons[b].r.size() - 1]);
+				input.balloons[b].c.push_back(input.balloons[b].c[input.balloons[b].c.size() - 1]);
+				input.balloons[b].h.push_back(input.balloons[b].h[input.balloons[b].h.size() - 1]);
+			}
+			cerr << "computing balloon " << b << ":";
 			while(input.balloons[b].r.size() <= input.t) {
 				int channel = b % num_channels;
 				int best_cluster = -1;
@@ -76,16 +83,20 @@ int main(int argc, char* argv[]) {
 							best_cluster = c;
 						}
 						else {
-							int diff_c = (input.clusters[c].center_c - input.balloons.c[input.balloons.c.size()] + input.c) % input.c;
-							int diff_best = (input.clusters[best_cluster].center_c - input.balloons.c[input.balloons.c.size()] + input.c) % input.c;
+							int diff_c = (int) (input.clusters[c].center_c - input.balloons[b].c[input.balloons[b].c.size() - 1] + 2*input.c - delta_c - 1) % input.c;
+							int diff_best = (int) (input.clusters[best_cluster].center_c - input.balloons[b].c[input.balloons[b].c.size() - 1] + 2*input.c - delta_c - 1) % input.c;
 							if(diff_c < diff_best) {
 								best_cluster = c;
 							}
 						}
 					}
 				}
-				pathfinding(input, b, input.clusters[best_cluster].center_r, input.clusters[best_cluster].center_c, delta, bfsdepth);
+				cerr << " " << input.balloons[b].c.size();
+				//cerr << " balloon " << input.balloons[b].r[input.balloons[b].r.size() - 1] << " " << input.balloons[b].c[input.balloons[b].c.size() - 1];
+				//cerr << " cluster " << input.clusters[best_cluster].center_r << " " << input.clusters[best_cluster].center_c;
+				pathfinding(input, b, input.clusters[best_cluster].center_r, input.clusters[best_cluster].center_c, delta, bfsdepth, delta_c);
 			}
+			cerr << endl;
 		}
 	}
 	else {

@@ -34,4 +34,4 @@ data/emi.%.ans: $(MAINFILE)
 	$(MAINFILE) emi < $(@:data/emi.%.ans=data/%.in) > $@
 
 data/channel.%.ans: $(MAINFILE)
-	$(MAINFILE) channel < $(@:data/emi.%.ans=data/%.in) > $@
+	$(MAINFILE) channel < $(@:data/channel.%.ans=data/%.in) > $@
