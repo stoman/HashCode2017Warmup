@@ -16,14 +16,14 @@ bool operator < (const Coord &a, const Coord &b)	{
 		return a.h < b.h;
 }
 
-double compute_distance(double r1, double c1, double r2, double c2, double r, double c)	{	
+double compute_distance(double r1, double c1, double h, double r2, double c2, double r, double c)	{	
 
 	if (r1 < 0 || r1 >= r || r2 < 0 || r2 >= r)
 		return 1e12;
 
 	double dr = abs(r1-r2);
 	double dc = min(abs(c1-c2),c-abs(c1-c2));
-	return sqrt(dr*dr+dc*dc);
+	return sqrt(dr*dr+dc*dc) + 10.*(h-1.);
 }
 
 int check_cell_value(Input &input, int r, int c) 	{
@@ -134,7 +134,7 @@ int choose_closest_point(Input &input, vector<Coord>& path, double r, double c) 
 	int idx_min = 0;
 	for (int i = 1; i < path.size(); i++)
 	{
-		curd = compute_distance(path[i].r,path[i].c,r,c,input.r,input.c);
+		curd = compute_distance(path[i].r,path[i].c,path[i].h,r,c,input.r,input.c);
 		if (curd < mind || idx_min == 0)
 		{
 			idx_min = i;
@@ -165,7 +165,7 @@ void pathfinding(Input& input, int balloon, double r, double c, double delta, in
 	bool step_done = false;
 	while (step_done == false  || 
 		   (input.balloons[balloon].h.size() <= input.t &&  
-		    compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),r,c,input.r,input.c) > delta &&
+		    compute_distance(input.balloons[balloon].r.back(),input.balloons[balloon].c.back(),input.balloons[balloon].h.back(),r,c,input.r,input.c) > delta &&
 		    check_horizontal_distance(input.balloons[balloon].c.back(),c,delta_c,input.c)) )
 	{
 		vector<Coord> path;
