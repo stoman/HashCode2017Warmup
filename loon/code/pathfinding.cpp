@@ -34,8 +34,8 @@ int check_cell_value(Input &input, int r, int c) 	{
 		return 0;
 }
 
-void check_cell(Input &input, Coord cur, vector<Coord>& path, vector<int>& prev, set<Coord>& visited, vector<int>& dist, 
-					int idx, double r, double c)	{
+void check_cell(Input &input, Coord cur, vector<Coord>& path, vector<int>& prev, set<Coord>& visited, vector<double>& dist, 
+					int idx, double r, double c, double alpha)	{
 
 	int dr = input.movement_r[cur.r][cur.c][cur.h];
 	int dc = input.movement_c[cur.r][cur.c][cur.h];
@@ -52,9 +52,9 @@ void check_cell(Input &input, Coord cur, vector<Coord>& path, vector<int>& prev,
 	int cnt_cells = 0;
 	for (int i = -2; i <= 2; i++)
 		 for (int j = -2; j <= 2; j++)
-		 	cnt_cells += check_cell_value(intput,cur.r+i,cur.c+j);
+		 	cnt_cells += check_cell_value(input,cur.r+i,cur.c+j);
 	
-	if (cnt > 12)
+	if (cnt_cells > 12)
 		dist.push_back(dist[idx]+alpha);
 	else
 		dist.push_back(dist[idx]+1.0);
@@ -160,7 +160,7 @@ bool check_horizontal_distance(double c1, double c2, double delta_c, double c)	{
 		return c1 > c2;
 }
 
-void pathfinding(Input& input, int balloon, double r, double c, double delta, int bfsdepth, double delta_c, double alpha=1.0) {
+void pathfinding(Input& input, int balloon, double r, double c, double delta, int bfsdepth, double delta_c, double alpha=0.5) {
 
 	bool step_done = false;
 	while (step_done == false  || 
