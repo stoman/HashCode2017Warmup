@@ -57,3 +57,9 @@ data/naive.%.ans.dat: visualize/vis data/naive.%.ans
 
 data/naive.%.png: data/naive.%.ans.dat data/%.in.dat
 	gnuplot -e "datafile='$(@:data/naive.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot_balloons.plg
+
+data/channel.%.ans.dat: visualize/vis data/channel.%.ans
+	visualize/vis $(@:%.dat=%) < $(@:data/channel.%.ans.dat=data/%.in) > $@
+
+data/channel.%.png: data/channel.%.ans.dat data/%.in.dat
+	gnuplot -e "datafile='$(@:data/channel.%.png=data/%.in.dat)';datafile2='$(@:%.png=%.ans.dat)'; outputname='$@'" visualize/plot_balloons.plg
