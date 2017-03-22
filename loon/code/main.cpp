@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
 		double delta = 10;
 		int clusteriterations = 100;
 		int bfsdepth = 10;
-		int num_channels = input.r / 10;
+		int num_channels = input.r / input.v + 1;
 		int clustercount = input.b;
 		int delta_c = 5;
 		int wait_time = 5;
