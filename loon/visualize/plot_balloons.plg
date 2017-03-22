@@ -12,8 +12,8 @@ set offsets 5, 5, 5, 5
 
 file_exists(file) = system("[ -f '".file."' ] && echo '1' || echo '0'") + 0
 
-plot datafile2 u 1:2:3 with points pt 5 palette title "targets", \
-    datafile u 1:2:3:4:5 with vectors palette title "loons"
+plot datafile u 1:2:3 with points pt 5 palette title "targets", \
+    datafile2 u 1:2:3:4:5 with vectors palette title "loons"
 
 xspan = GPVAL_DATA_X_MAX - GPVAL_DATA_X_MIN
 yspan = GPVAL_DATA_Y_MAX - GPVAL_DATA_Y_MIN
