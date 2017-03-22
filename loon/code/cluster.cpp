@@ -28,7 +28,7 @@ void recompute_centers(Input& input) {
 			cluster.center_r += 1.*cell.first/cluster.cells.size();
 			cluster.center_c += 1.*cell.second/cluster.cells.size();
 		}
-		if(cluster.center_c == .0) {
+		if(cluster.center_c < 0.1) {
 			int r = rand() % input.l;
 			cluster.center_r = input.cell_r[r];
 			cluster.center_c = input.cell_c[r];
