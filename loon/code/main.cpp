@@ -62,16 +62,20 @@ int main(int argc, char* argv[]) {
 		double delta = 10;
 		int clusteriterations = 100;
 		int bfsdepth = 10;
-		int num_channels = input.b / 2 + 1;
-		int clustercount = 10 * num_channels;
+		int num_channels = input.r / 10;
+		int clustercount = input.b;
 		int delta_c = 5;
-		double ignore_south = 0.5;//make this bigger to ignore more of the lower part of the world
 		int wait_time = 5;
 
 		cluster(input, clustercount, clusteriterations);
+
+		vector<int> channelids(input.b, 0);
+		for(int i = 0; i < input.b; i++) {
+			channelids[i] = (int) ((input.clusters[i].center_r) * num_channels / input.r);
+		}
+
 		for (int b = 0; b < input.b; ++b) {
-			int channel = (int) (ignore_south * num_channels) + (b % num_channels);
-			for(int i = 0; i < wait_time * b / num_channels; i++) {
+			for(int i = 0; i < b/2; i++) {
 				input.balloons[b].r.push_back(input.balloons[b].r[input.balloons[b].r.size() - 1]);
 				input.balloons[b].c.push_back(input.balloons[b].c[input.balloons[b].c.size() - 1]);
 				input.balloons[b].h.push_back(input.balloons[b].h[input.balloons[b].h.size() - 1]);
@@ -80,7 +84,7 @@ int main(int argc, char* argv[]) {
 			while(input.balloons[b].r.size() <= input.t) {
 				int best_cluster = -1;
 				for(int c = 0; c < input.clusters.size(); c++) {
-					if((int) ((input.clusters[c].center_r) * (num_channels * (1 + ignore_south)) / input.r) == channel) {
+					if((int) ((input.clusters[c].center_r) * num_channels / input.r) == channelids[b]) {
 						if(best_cluster == -1) {
 							best_cluster = c;
 						}
