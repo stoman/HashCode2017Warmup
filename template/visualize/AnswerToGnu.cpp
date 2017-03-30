@@ -17,6 +17,10 @@ int main(int argc, char* argv[]) {
     ifstream ans;
     ans.open(ansfile);
 
+    // read number
+    // int da;
+    // ans >> da;
+
     // cerr << "done" << endl;
     ans.close();
     return 0;

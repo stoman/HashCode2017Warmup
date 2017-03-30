@@ -9,6 +9,9 @@ set terminal pngcairo size 3200,1200 enhanced
 
 set offsets 5, 5, 5, 5
 
+# Example palette
+# set palette defined ( 0 '#00ff00', 1 '#ff0000')
+
 # file_exists(file) = system("[ -f '".file."' ] && echo '1' || echo '0'") + 0
 # Example: Rectangles
 # if ( file_exists(datafile2) ) load datafile2
