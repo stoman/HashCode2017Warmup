@@ -33,8 +33,4 @@ public class AnswerToGnu {
 		// "set label i at x,y front center"
 
 	}
-
-	public static double toFrac(int n) {
-		return ((double) Math.min(Math.max(MIN, n), MAX)) / (MAX - MIN) ;
-	}
 }
