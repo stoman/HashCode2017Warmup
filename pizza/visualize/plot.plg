@@ -15,7 +15,7 @@ plot datafile u 1:2:3 with points pt 5 palette
 xspan = GPVAL_DATA_X_MAX - GPVAL_DATA_X_MIN
 yspan = GPVAL_DATA_Y_MAX - GPVAL_DATA_Y_MIN
 
-PIXELS_PER_COL = 10
+PIXELS_PER_COL = 100
 
 xres = xspan * PIXELS_PER_COL
 yres = yspan * PIXELS_PER_COL
