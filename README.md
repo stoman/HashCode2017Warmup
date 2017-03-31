@@ -1,6 +1,6 @@
 # Hash Code 2017 Warmup
 
-This is our entry for the warm up round of Google Hash Code 2017 which is located in the directory `pizza`. We also solved the qualification round from 2015 which is located in the directory `datacenter`.
+This is our entry for the warm up round of Google Hash Code 2017 which is located in the directory `pizza`. We also solved many other problems from past contests that are contained in the respective directories.
 
 You can find more information about the contest at https://hashcode.withgoogle.com/.
 
